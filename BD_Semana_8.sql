@@ -1,7 +1,7 @@
 -- ============================================================================
 -- EJERCICIO: VISTAS CON ENCRIPTACIÓN DE DATOS SENSIBLES
 -- Base de Datos: SQL Server
--- Estudiante: [Tu Nombre]
+-- Estudiante: [Enrique Muller]
 -- ============================================================================
 
 -- PASO 0: Preparación del entorno
