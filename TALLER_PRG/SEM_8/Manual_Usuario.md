@@ -82,10 +82,7 @@ Al iniciar, el sistema verifica automáticamente la conexión con la base de dat
 
 ### 4.1 Descripción de la Pantalla
 
-```
-<img width="1134" height="955" alt="image" src="https://github.com/user-attachments/assets/b48f8067-3fcb-4228-8ef6-35847ca2d8dd" />
-
-```
+<img width="991" height="592" alt="image" src="https://github.com/user-attachments/assets/aca90f8a-eb4a-4ec1-8812-a5783dafe9a8" />
 
 ### 4.2 Componentes de la Interfaz
 
@@ -123,32 +120,7 @@ Al iniciar, el sistema verifica automáticamente la conexión con la base de dat
 **Opción 3**: Atajo **Ctrl + C**
 
 ### 5.2 Pantalla de Gestión de Clientes
-
-```
-╔═══════════════════════════════════════════════════════════════╗
-║ Gestión de Clientes                                     [X]   ║
-╠═══════════════════════════════════════════════════════════════╣
-║ Buscar: [________________] [🔍 Buscar] [Mostrar Todos]       ║
-╠═══════════════════════════════════════════════════════════════╣
-║ LISTA DE CLIENTES                      ║ DATOS DEL CLIENTE   ║
-║ ═══════════════════════════════════════╬═════════════════════║
-║ ID │ Nombre      │ Email      │ Tel   ║                     ║
-║ ───┼─────────────┼────────────┼────── ║ Nombre:             ║
-║ 1  │ Juan Pérez  │ juan@...   │ +56.. ║ [_______________]   ║
-║ 2  │ María G.    │ maria@...  │ +56.. ║                     ║
-║ 3  │ Carlos R.   │ carlos@... │ +56.. ║ Teléfono:           ║
-║ 4  │ Ana M.      │ ana@...    │ +56.. ║ [_______________]   ║
-║                                        ║                     ║
-║                                        ║ Email:              ║
-║                                        ║ [_______________]   ║
-║                                        ║                     ║
-║                                        ║ [➕ Nuevo]          ║
-║                                        ║ [💾 Guardar]        ║
-║                                        ║ [✏️ Modificar]      ║
-║                                        ║ [🗑️ Eliminar]       ║
-║                                        ║ [❌ Cancelar]       ║
-╚════════════════════════════════════════╩═════════════════════╝
-```
+<img width="986" height="593" alt="image" src="https://github.com/user-attachments/assets/29b9d68c-143d-4547-bd56-17a04569fd0e" />
 
 ### 5.3 Agregar Nuevo Cliente
 
@@ -273,40 +245,7 @@ Al eliminar un cliente, **TODAS SUS DIRECCIONES** también se eliminan automáti
 **Opción 3**: Atajo **Ctrl + D**
 
 ### 6.2 Pantalla de Gestión de Direcciones
-
-```
-╔══════════════════════════════════════════════════════════════════╗
-║ Gestión de Direcciones                                    [X]   ║
-╠══════════════════════════════════════════════════════════════════╣
-║ Filtrar por Cliente: [-- Todos --  ▼] [Mostrar Todas]          ║
-╠══════════════════════════════════════════════════════════════════╣
-║ LISTA DE DIRECCIONES                   ║ DATOS DE DIRECCIÓN    ║
-║ ═══════════════════════════════════════╬═══════════════════════║
-║ ID │Cliente    │Calle│Ciudad│Principal ║                       ║
-║ ───┼───────────┼─────┼──────┼───────── ║ Cliente:              ║
-║ 1  │Juan Pérez │Av...│Stgo  │   ✓     ║ [Juan Pérez      ▼]  ║
-║ 2  │Juan Pérez │C...│Stgo  │         ║                       ║
-║ 3  │María G.   │Pas..│Stgo  │   ✓     ║ Calle:                ║
-║                                        ║ [________________]    ║
-║                                        ║                       ║
-║                                        ║ Ciudad:               ║
-║                                        ║ [________________]    ║
-║                                        ║                       ║
-║                                        ║ País:                 ║
-║                                        ║ [________________]    ║
-║                                        ║                       ║
-║                                        ║ Código Postal:        ║
-║                                        ║ [________]            ║
-║                                        ║                       ║
-║                                        ║ [✓] Dirección Principal║
-║                                        ║                       ║
-║                                        ║ [➕ Nuevo]            ║
-║                                        ║ [💾 Guardar]          ║
-║                                        ║ [✏️ Modificar]        ║
-║                                        ║ [🗑️ Eliminar]         ║
-║                                        ║ [❌ Cancelar]         ║
-╚════════════════════════════════════════╩═══════════════════════╝
-```
+<img width="1185" height="592" alt="image" src="https://github.com/user-attachments/assets/cba764de-4cc5-4570-968b-e4bfa0771cd5" />
 
 ### 6.3 Agregar Nueva Dirección
 
@@ -514,18 +453,6 @@ Similar al proceso de clientes:
 1. Filtros aplicados (puede estar filtrando y no mostrar todos)
 2. Hacer clic en "Mostrar Todos"
 3. Verificar que hay datos en la base de datos
-
----
-
-## CONTACTO Y SOPORTE
-
-Para soporte adicional:
-
-📧 **Email**: soporte@logisticaglobal.com  
-📞 **Teléfono**: +56 2 1234 5678  
-🕐 **Horario**: Lunes a Viernes, 9:00 - 18:00
-
----
 
 ## GLOSARIO
 
