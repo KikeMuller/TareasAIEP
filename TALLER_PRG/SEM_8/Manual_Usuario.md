@@ -83,23 +83,8 @@ Al iniciar, el sistema verifica automáticamente la conexión con la base de dat
 ### 4.1 Descripción de la Pantalla
 
 ```
-╔══════════════════════════════════════════════════════╗
-║ Sistema de Gestión de Clientes - Logística Global   ║
-╠══════════════════════════════════════════════════════╣
-║ [Clientes] [Direcciones] [Herramientas] [Salir]    ║
-╠══════════════════════════════════════════════════════╣
-║                                                      ║
-║     Sistema de Gestión de Clientes                  ║
-║     Empresa de Logística Global                     ║
-║                                                      ║
-║   ┌────────────────┐      ┌────────────────┐       ║
-║   │   Gestionar    │      │   Gestionar    │       ║
-║   │   CLIENTES     │      │  DIRECCIONES   │       ║
-║   └────────────────┘      └────────────────┘       ║
-║                                                      ║
-╠══════════════════════════════════════════════════════╣
-║ Listo | 14/10/2025 15:30                           ║
-╚══════════════════════════════════════════════════════╝
+<img width="1134" height="955" alt="image" src="https://github.com/user-attachments/assets/b48f8067-3fcb-4228-8ef6-35847ca2d8dd" />
+
 ```
 
 ### 4.2 Componentes de la Interfaz
