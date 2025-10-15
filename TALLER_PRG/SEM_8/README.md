@@ -314,25 +314,5 @@ SolucionLogistica/
 ### Error: "Could not load file or assembly System.Data.SqlClient"
 **Solución**: Reinstalar el paquete NuGet System.Data.SqlClient
 
-## 👥 Contribuciones
-
-Este proyecto fue desarrollado como parte de un proyecto académico de Desarrollo de Aplicaciones con C# y SQL Server.
-
-**Autor**: [Tu Nombre]  
-**Fecha**: Octubre 2025  
-**Versión**: 1.0.0
-
-## 📄 Licencia
-
-Proyecto académico - Libre uso para fines educativos.
-
-## 📞 Soporte
-
-Para consultas o problemas:
-- Revisar la sección de Solución de Problemas
-- Verificar los logs de error (error_log.txt)
-- Consultar documentación de SQL Server y .NET Framework
-
----
 
 **¡Gracias por usar el Sistema de Gestión de Clientes!** 🚀
