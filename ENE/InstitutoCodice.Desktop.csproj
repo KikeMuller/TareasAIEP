@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <RootNamespace>InstitutoCodice.Desktop</RootNamespace>
+    <AssemblyName>InstitutoCodice</AssemblyName>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
+    <StartupObject>InstitutoCodice.Desktop.Program</StartupObject>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Authors>Instituto Códice</Authors>
+    <Company>Instituto Códice</Company>
+    <Product>Sistema de Gestión Académica</Product>
+    <Description>Sistema para gestionar asistencia y notas de estudiantes</Description>
+    <Version>1.0.0</Version>
+    <Copyright>Copyright © 2025 Instituto Códice</Copyright>
+  </PropertyGroup>
+
+</Project>
