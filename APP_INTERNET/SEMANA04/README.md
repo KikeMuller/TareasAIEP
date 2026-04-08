@@ -6,7 +6,7 @@
 ## Estructura de carpetas
 
 ```
-elfaro_v5_proyecto/
+SEMANANA04/
 │
 ├── index.html          ← Archivo principal (todo integrado)
 │
