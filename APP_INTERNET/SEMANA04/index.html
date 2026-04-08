@@ -1,0 +1,1734 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>El Faro — Periódico Digital</title>
+
+  <!--
+  ════════════════════════════════════════════════════════════
+  TIPOGRAFÍA EXTERNA — GOOGLE FONTS
+  Lora  → títulos y encabezados (serif editorial)
+  Inter → cuerpo de texto, UI (sans-serif moderna)
+  ════════════════════════════════════════════════════════════
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ════════════════════════════════════════════════════════
+       VARIABLES GLOBALES — sistema de diseño centralizado.
+       Un solo punto de edición para colores y fuentes.
+    ════════════════════════════════════════════════════════ */
+    :root {
+      --ink:          #1a1008;   /* negro tinta — texto principal */
+      --ink-soft:     #3d2e1e;   /* marrón suave — texto secundario */
+      --accent:       #b8320a;   /* rojo ladrillo — acento principal */
+      --accent-2:     #1a4d7c;   /* azul marino — acento secundario */
+      --gold:         #c9933a;   /* dorado — detalles decorativos */
+      --green:        #1b6b3a;   /* verde — sección deportes */
+      --rule:         #2b1f10;   /* marrón oscuro — nav */
+      --white:        #ffffff;
+
+      /* Fondo general del sitio (gris claro) */
+      --bg-site:      #f5f5f5;
+
+      /* Colores del footer */
+      --footer-bg:    #c9d2d0;
+      --footer-text:  #31231e;
+
+      /* Tipografías externas de Google Fonts */
+      --ff-head:      'Lora', Georgia, serif;
+      --ff-body:      'Inter', sans-serif;
+
+      /* Radios y sombras de tarjetas */
+      --radius-card:  10px;
+      --shadow-card:  0 2px 12px rgba(0,0,0,0.08);
+    }
+
+    /* ════════════════════════════════════════════════════════
+       RESET BASE — normaliza márgenes y box-model entre navegadores
+    ════════════════════════════════════════════════════════ */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    /* Fondo gris del sitio — artículos mantienen fondo blanco */
+    body {
+      background-color: var(--bg-site);
+      color: var(--ink);
+      font-family: var(--ff-body);
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    /* ════════════════════════════════════════════════════════
+       VÍNCULOS — subrayado por defecto, negrita sin subrayado en hover
+    ════════════════════════════════════════════════════════ */
+    a {
+      text-decoration: underline;
+      transition: font-weight 0.15s, text-decoration 0.15s;
+    }
+    a:hover {
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    /* ════════════════════════════════════════════════════════
+       HEADER — portada principal del periódico
+    ════════════════════════════════════════════════════════ */
+    header {
+      background: var(--ink);
+      color: #f8f3e8;
+      border-bottom: 5px solid var(--accent);
+    }
+
+    /* Barra superior: contiene la fecha/hora en vivo y edición */
+    .header-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 40px;
+      font-family: var(--ff-body);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      border-bottom: 1px solid #3a2c1a;
+      color: #c8b89a;
+    }
+
+    /*
+      NUEVA CARACTERÍSTICA 1 — FECHA Y HORA EN VIVO
+      El reloj se actualiza cada segundo con JavaScript.
+      El bloque .live-clock agrupa fecha + hora.
+    */
+    .live-clock {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Separador vertical entre fecha y hora */
+    .live-clock-sep {
+      width: 1px;
+      height: 14px;
+      background: #5a4030;
+    }
+
+    /* La hora (con segundos) tiene color dorado para resaltarla */
+    .live-time {
+      color: var(--gold);
+      font-weight: 600;
+      font-variant-numeric: tabular-nums; /* evita que el ancho cambie al actualizar */
+      letter-spacing: 0.1em;
+    }
+
+    .header-edition {
+      padding: 3px 10px;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      border-radius: 2px;
+    }
+
+    /* Bloque central: logo + título + eslogan */
+    .header-main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 30px 40px 24px;
+      gap: 10px;
+    }
+
+    .logo-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+    }
+
+    .logo-svg { width: 80px; height: 80px; flex-shrink: 0; }
+
+    /* Título h1 responsivo con clamp() */
+    .header-title {
+      font-family: var(--ff-head);
+      font-size: clamp(48px, 8vw, 96px);
+      font-weight: 700;
+      letter-spacing: -2px;
+      color: #f8f3e8;
+      line-height: 1;
+    }
+    .header-title span { color: var(--gold); }
+
+    .header-tagline {
+      font-family: var(--ff-body);
+      font-size: 11px;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: #a89070;
+      margin-top: 4px;
+    }
+
+    /* Línea ornamental dorada */
+    .ornament-rule {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--gold);
+      font-size: 18px;
+    }
+    .ornament-rule::before,
+    .ornament-rule::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
+    }
+
+    /* ════════════════════════════════════════════════════════
+       TICKER — cinta animada de titulares con @keyframes
+    ════════════════════════════════════════════════════════ */
+    .ticker {
+      background: var(--accent);
+      color: white;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      height: 36px;
+    }
+    .ticker-label {
+      background: #8a2206;
+      padding: 0 16px;
+      font-family: var(--ff-body);
+      font-size: 10px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      white-space: nowrap;
+      font-weight: 600;
+    }
+    .ticker-track { flex: 1; overflow: hidden; padding: 0 20px; }
+    .ticker-inner {
+      display: inline-block;
+      white-space: nowrap;
+      animation: ticker-scroll 28s linear infinite;
+      font-family: var(--ff-body);
+      font-size: 12px;
+      letter-spacing: 0.04em;
+    }
+    .ticker-inner span { margin-right: 60px; }
+    .ticker-inner span::before { content: '◆ '; font-size: 8px; vertical-align: middle; }
+
+    @keyframes ticker-scroll {
+      0%   { transform: translateX(100%);  }
+      100% { transform: translateX(-100%); }
+    }
+
+    /* ════════════════════════════════════════════════════════
+       NAVEGACIÓN — sticky, con ítem activo mediante JS
+    ════════════════════════════════════════════════════════ */
+    nav {
+      background: var(--rule);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.35);
+    }
+    nav ul { display: flex; list-style: none; justify-content: center; }
+    nav ul li a {
+      display: block;
+      padding: 14px 32px;
+      font-family: var(--ff-body);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #d4c5a9;
+      text-decoration: underline;
+      border-right: 1px solid #3a2a18;
+      transition: background 0.2s, color 0.2s, font-weight 0.1s;
+    }
+    nav ul li:first-child a { border-left: 1px solid #3a2a18; }
+    nav ul li a:hover, nav ul li a.active {
+      background: var(--accent);
+      color: #ffffff;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    /* ════════════════════════════════════════════════════════
+       CONTENEDOR CENTRAL — centra y limita el ancho máximo
+    ════════════════════════════════════════════════════════ */
+    .container { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
+    section { padding: 60px 0 50px; }
+    section + section { border-top: 3px double var(--ink-soft); }
+
+    /* ════════════════════════════════════════════════════════
+       ENCABEZADOS DE SECCIÓN — etiqueta + título
+    ════════════════════════════════════════════════════════ */
+    .section-label {
+      font-family: var(--ff-body);
+      font-size: 10px;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+    .section-title {
+      font-family: var(--ff-head);
+      font-size: 38px;
+      font-weight: 700;
+      color: var(--ink);
+      border-bottom: 4px solid var(--ink);
+      padding-bottom: 12px;
+      margin-bottom: 12px;
+      position: relative;
+    }
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -4px; left: 0;
+      width: 80px; height: 4px;
+      background: var(--accent);
+    }
+    #deporte  .section-title::after { background: var(--green); }
+    #negocios .section-title::after { background: var(--gold); }
+
+    /* ════════════════════════════════════════════════════════
+       NUEVA CARACTERÍSTICA 4 — CONTADOR DE ARTÍCULOS
+       Barra visible debajo del título de cada sección.
+       Se actualiza automáticamente al agregar artículos.
+    ════════════════════════════════════════════════════════ */
+    .article-counter {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 28px;
+      padding: 8px 14px;
+      background: var(--white);
+      border: 1px solid #e0e0e0;
+      border-radius: 6px;
+      width: fit-content;
+      box-shadow: var(--shadow-card);
+    }
+    /* Número grande dentro del contador */
+    .article-counter-num {
+      font-family: var(--ff-head);
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1;
+    }
+    .article-counter-label {
+      font-family: var(--ff-body);
+      font-size: 12px;
+      color: var(--ink-soft);
+    }
+    /* Variantes de color por sección */
+    #deporte  .article-counter-num { color: var(--green); }
+    #negocios .article-counter-num { color: var(--gold);  }
+
+    /* ════════════════════════════════════════════════════════
+       BADGES DE CATEGORÍA
+    ════════════════════════════════════════════════════════ */
+    .news-category {
+      display: inline-block;
+      font-family: var(--ff-body);
+      font-size: 9px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      padding: 3px 9px;
+      border-radius: 3px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+    .cat-general  { background: var(--accent-2); color: #fff; }
+    .cat-deporte  { background: var(--green);    color: #fff; }
+    .cat-negocios { background: var(--gold);     color: var(--ink); }
+    .cat-nuevo    { background: #6d2e46;          color: #fff; } /* badge para artículos nuevos */
+
+    /* ════════════════════════════════════════════════════════
+       HERO BANNER — noticia destacada (CSS Grid 2 columnas)
+    ════════════════════════════════════════════════════════ */
+    .hero-banner {
+      background: var(--ink);
+      color: #f8f3e8;
+      padding: 40px;
+      margin-bottom: 40px;
+      border-radius: var(--radius-card);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: center;
+    }
+    .hero-banner-label {
+      font-family: var(--ff-body);
+      font-size: 10px;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+    .hero-banner h2 { font-family: var(--ff-head); font-size: 28px; font-weight: 700; line-height: 1.3; margin-bottom: 14px; }
+    .hero-banner p  { font-size: 14px; line-height: 1.7; color: #c8b89a; }
+    .hero-img-placeholder {
+      height: 220px;
+      background: linear-gradient(135deg, #2d1f0e, #1a4d7c);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--ff-head);
+      font-size: 56px;
+      font-style: italic;
+      color: rgba(255,255,255,0.12);
+    }
+
+    /* ════════════════════════════════════════════════════════
+       NUEVA CARACTERÍSTICA 2 — FORMULARIO DE NUEVO ARTÍCULO
+       Tarjeta con fondo blanco, coherente con el sistema visual.
+       Aparece antes de la grilla en cada sección.
+    ════════════════════════════════════════════════════════ */
+    .add-article-form {
+      background: var(--white);
+      border: 1px solid #e0e0e0;
+      border-radius: var(--radius-card);
+      box-shadow: var(--shadow-card);
+      margin-bottom: 28px;
+      overflow: hidden;
+    }
+
+    /* Cabecera del formulario con color de acento */
+    .add-article-form-header {
+      background: var(--ink);
+      color: #f8f3e8;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .add-article-form-header span {
+      font-family: var(--ff-body);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    /* Botón para expandir/colapsar el formulario */
+    .toggle-form-btn {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 4px 12px;
+      border-radius: 4px;
+      font-family: var(--ff-body);
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      letter-spacing: 0.05em;
+      transition: background 0.2s;
+    }
+    .toggle-form-btn:hover { background: #922808; }
+
+    /* Cuerpo del formulario — puede estar visible u oculto */
+    .add-article-form-body {
+      padding: 20px;
+      display: none; /* oculto por defecto, se abre con JS */
+      flex-direction: column;
+      gap: 14px;
+    }
+    .add-article-form-body.open { display: flex; }
+
+    /* Grupos de campo: etiqueta + input */
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .form-group label {
+      font-family: var(--ff-body);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+    }
+
+    /* Inputs y textareas comparten el mismo estilo visual */
+    .form-group input,
+    .form-group textarea,
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1.5px solid #e0e0e0;
+      border-radius: 6px;
+      font-family: var(--ff-body);
+      font-size: 14px;
+      color: var(--ink);
+      background: var(--bg-site);
+      transition: border-color 0.2s, box-shadow 0.2s;
+      resize: vertical;
+    }
+    /* Focus: resalta con color de acento */
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .contact-form input:focus,
+    .contact-form textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(184,50,10,0.12);
+    }
+
+    /* Botón de envío del formulario de artículo */
+    .submit-article-btn {
+      align-self: flex-start;
+      padding: 10px 24px;
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-family: var(--ff-body);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      letter-spacing: 0.05em;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .submit-article-btn:hover {
+      background: #922808;
+      transform: translateY(-1px);
+    }
+
+    /* Variantes de color de botón por sección */
+    #deporte  .submit-article-btn { background: var(--green); }
+    #deporte  .submit-article-btn:hover { background: #145228; }
+    #negocios .submit-article-btn { background: #8a6020; }
+    #negocios .submit-article-btn:hover { background: #6a4a18; }
+
+    /* ════════════════════════════════════════════════════════
+       GRILLA DE ARTÍCULOS — CSS Grid responsive
+       Desktop: 3 col | Tablet: 2 col | Móvil: 1 col
+    ════════════════════════════════════════════════════════ */
+    .news-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+
+    /* Artículo individual — fondo blanco */
+    .news-card {
+      background: var(--white);
+      border-radius: var(--radius-card);
+      border: 1px solid #e0e0e0;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      box-shadow: var(--shadow-card);
+      cursor: pointer;
+      transition: background 0.25s ease, color 0.25s ease,
+                  transform  0.2s  ease, box-shadow 0.2s ease;
+    }
+
+    /* Hover: fondo negro + texto blanco */
+    .news-card:hover {
+      background: #000000;
+      color: #ffffff;
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+    }
+    .news-card:hover .news-title-cell,
+    .news-card:hover .news-text,
+    .news-card:hover .card-date { color: #ffffff; }
+    .news-card:hover .news-category { opacity: 0.9; }
+    .news-card:hover .card-num      { color: rgba(255,255,255,0.3); }
+
+    /* Número grande decorativo */
+    .card-num {
+      font-family: var(--ff-head);
+      font-size: 32px;
+      font-weight: 700;
+      color: #e0e0e0;
+      line-height: 1;
+    }
+
+    .news-title-cell {
+      font-family: var(--ff-head);
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.35;
+      color: var(--ink);
+      transition: color 0.25s;
+    }
+    .news-text {
+      font-size: 13px;
+      line-height: 1.65;
+      color: var(--ink-soft);
+      flex: 1;
+      transition: color 0.25s;
+    }
+    .card-date {
+      font-family: var(--ff-body);
+      font-size: 11px;
+      color: #9a8060;
+      text-align: right;
+      margin-top: auto;
+      padding-top: 10px;
+      border-top: 1px solid #f0f0f0;
+      transition: color 0.25s, border-color 0.25s;
+    }
+    .news-card:hover .card-date { border-top-color: rgba(255,255,255,0.2); }
+
+    /* ════════════════════════════════════════════════════════
+       MULTIMEDIA — video y audio en grilla de 2 columnas
+    ════════════════════════════════════════════════════════ */
+    .media-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      margin-top: 20px;
+    }
+    .media-card {
+      background: var(--white);
+      border: 1px solid #e0e0e0;
+      border-radius: var(--radius-card);
+      overflow: hidden;
+      box-shadow: var(--shadow-card);
+    }
+    .media-card-header {
+      background: var(--ink);
+      color: #f8f3e8;
+      padding: 12px 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--ff-body);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+    .media-card-header .icon {
+      width: 28px; height: 28px;
+      background: var(--accent);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px;
+    }
+    .media-card-body { padding: 18px; }
+    .media-card-body h3 { font-family: var(--ff-head); font-size: 16px; margin-bottom: 10px; color: var(--ink); line-height: 1.4; }
+    .media-card-body p  { font-size: 13px; color: var(--ink-soft); margin-bottom: 14px; }
+    video, audio { width: 100%; border-radius: 4px; accent-color: var(--accent); }
+    .quote-box {
+      margin-top: 14px;
+      padding: 12px 14px;
+      background: #f5f5f5;
+      border-radius: 4px;
+      border-left: 3px solid var(--accent-2);
+      font-size: 12px;
+      color: var(--ink-soft);
+      font-style: italic;
+    }
+
+    /* ════════════════════════════════════════════════════════
+       SECCIÓN DEPORTE — fondo con degradado verde suave
+    ════════════════════════════════════════════════════════ */
+    #deporte { background: linear-gradient(180deg, #f0f7f0 0%, var(--bg-site) 100%); }
+
+    /* ════════════════════════════════════════════════════════
+       TABLA DE POSICIONES — elemento bonus en sección Deporte
+    ════════════════════════════════════════════════════════ */
+    .standings {
+      background: var(--white);
+      border: 1px solid #e0e0e0;
+      border-radius: var(--radius-card);
+      padding: 24px;
+      box-shadow: var(--shadow-card);
+      margin-top: 32px;
+    }
+    .standings h3 { font-family: var(--ff-head); font-size: 20px; margin-bottom: 16px; color: var(--ink); border-bottom: 2px solid var(--green); padding-bottom: 8px; }
+    .standings table { width: 100%; border-collapse: collapse; font-size: 13px; font-family: var(--ff-body); }
+    .standings thead tr { background: var(--green); color: white; }
+    .standings th, .standings td { padding: 8px 12px; }
+    .standings td { border-bottom: 1px solid #f0f0f0; }
+    .standings tbody tr:nth-child(odd) { background: #f5f5f5; }
+    .pts { color: var(--green); font-weight: 700; text-align: center; }
+
+    /* ════════════════════════════════════════════════════════
+       SECCIÓN NEGOCIOS — tarjetas biz-card con imagen SVG
+    ════════════════════════════════════════════════════════ */
+    .biz-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .biz-card {
+      background: var(--white);
+      border-radius: var(--radius-card);
+      overflow: hidden;
+      box-shadow: var(--shadow-card);
+      border: 1px solid #e0e0e0;
+      display: flex;
+      flex-direction: column;
+      transition: background 0.25s, color 0.25s, transform 0.2s, box-shadow 0.2s;
+      cursor: pointer;
+    }
+    .biz-card:hover {
+      background: #000000;
+      color: #ffffff;
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+    }
+    .biz-card:hover .biz-card-body h3,
+    .biz-card:hover .biz-card-body p   { color: #ffffff; }
+    .biz-card:hover .biz-card-footer   { color: rgba(255,255,255,0.6); border-top-color: rgba(255,255,255,0.15); }
+    .biz-card-img { height: 160px; overflow: hidden; }
+    .biz-card-img svg { width: 100%; height: 100%; }
+    .biz-card-body { padding: 20px; flex: 1; display: flex; flex-direction: column; gap: 8px; }
+    .biz-card-body h3 { font-family: var(--ff-head); font-size: 16px; font-weight: 700; line-height: 1.3; color: var(--ink); transition: color 0.25s; }
+    .biz-card-body p  { font-size: 13px; color: var(--ink-soft); line-height: 1.6; flex: 1; transition: color 0.25s; }
+    .biz-card-footer  { padding: 12px 20px; border-top: 1px solid #e0e0e0; font-family: var(--ff-body); font-size: 11px; color: #9a8060; display: flex; justify-content: space-between; transition: color 0.25s, border-color 0.25s; }
+
+    /* ════════════════════════════════════════════════════════
+       NUEVA CARACTERÍSTICA 3 — FORMULARIO DE CONTACTO
+       Sección independiente con estilos coherentes.
+       Fondo blanco sobre el gris del sitio.
+    ════════════════════════════════════════════════════════ */
+    #contacto {
+      background: var(--bg-site);
+    }
+    #contacto .section-title::after { background: var(--accent-2); }
+
+    /* Contenedor del formulario de contacto */
+    .contact-wrapper {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: start;
+    }
+
+    /* Tarjeta del formulario — fondo blanco */
+    .contact-form-card {
+      background: var(--white);
+      border: 1px solid #e0e0e0;
+      border-radius: var(--radius-card);
+      box-shadow: var(--shadow-card);
+      overflow: hidden;
+    }
+    .contact-form-header {
+      background: var(--accent-2);
+      color: white;
+      padding: 14px 20px;
+      font-family: var(--ff-body);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    /* Formulario de contacto */
+    .contact-form {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .contact-form label {
+      display: block;
+      font-family: var(--ff-body);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      margin-bottom: 5px;
+    }
+    .contact-form input:focus,
+    .contact-form textarea:focus {
+      border-color: var(--accent-2);
+      box-shadow: 0 0 0 3px rgba(26,77,124,0.12);
+    }
+
+    /* Botón de envío del formulario de contacto */
+    .contact-submit-btn {
+      width: 100%;
+      padding: 12px;
+      background: var(--accent-2);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-family: var(--ff-body);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      letter-spacing: 0.05em;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .contact-submit-btn:hover {
+      background: #123a5f;
+      transform: translateY(-1px);
+    }
+
+    /* Mensaje de confirmación tras enviar */
+    .contact-success {
+      display: none;
+      padding: 14px;
+      background: #e8f5e9;
+      border: 1px solid #a5d6a7;
+      border-radius: 6px;
+      color: #2e7d32;
+      font-size: 13px;
+      font-weight: 500;
+      text-align: center;
+    }
+    .contact-success.visible { display: block; }
+
+    /* Panel de información de contacto */
+    .contact-info {
+      background: var(--ink);
+      color: #c8b89a;
+      border-radius: var(--radius-card);
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .contact-info h3 {
+      font-family: var(--ff-head);
+      font-size: 22px;
+      color: #f8f3e8;
+      margin-bottom: 4px;
+    }
+    .contact-info p { font-size: 13px; line-height: 1.7; }
+    .contact-info-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding-top: 16px;
+      border-top: 1px solid #3a2c1a;
+    }
+    .contact-info-icon {
+      font-size: 18px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .contact-info-item strong {
+      display: block;
+      color: var(--gold);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 3px;
+    }
+    .contact-info-item span { font-size: 13px; }
+
+    /* ════════════════════════════════════════════════════════
+       FOOTER — fondo #c9d2d0, texto #31231e, Grid 3 columnas
+    ════════════════════════════════════════════════════════ */
+    footer {
+      background: var(--footer-bg);
+      color: var(--footer-text);
+      padding: 48px 0 28px;
+      margin-top: 60px;
+    }
+    .footer-inner {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 36px;
+    }
+    .footer-brand .brand-name { font-family: var(--ff-head); font-size: 30px; font-weight: 700; color: var(--footer-text); margin-bottom: 8px; }
+    .footer-brand .brand-name span { color: #5a4030; }
+    .footer-brand p { font-size: 13px; line-height: 1.7; color: var(--footer-text); }
+    .footer-col h4 { font-family: var(--ff-body); font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: #4a3528; margin-bottom: 14px; font-weight: 600; }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { font-size: 13px; padding: 4px 0; border-bottom: 1px solid rgba(49,35,30,0.15); }
+    .footer-col ul li a { color: var(--footer-text); text-decoration: underline; }
+    .footer-col ul li a:hover { color: #000; font-weight: 600; text-decoration: none; }
+    .footer-bottom { border-top: 1px solid rgba(49,35,30,0.2); padding-top: 20px; display: flex; justify-content: space-between; font-family: var(--ff-body); font-size: 11px; color: var(--footer-text); letter-spacing: 0.05em; }
+
+    /* ════════════════════════════════════════════════════════
+       RESPONSIVE — media queries para tablet y móvil
+       Desktop ≥ 900px : 3 columnas
+       Tablet  ≤ 900px : 2 columnas
+       Móvil   ≤ 600px : 1 columna
+    ════════════════════════════════════════════════════════ */
+    @media (max-width: 900px) {
+      .news-grid, .biz-cards { grid-template-columns: repeat(2, 1fr); }
+      .hero-banner, .contact-wrapper { grid-template-columns: 1fr; }
+      .hero-img-placeholder { height: 140px; }
+      .footer-inner { grid-template-columns: 1fr 1fr; }
+      .footer-brand { grid-column: 1 / -1; }
+      .media-grid { grid-template-columns: 1fr; gap: 20px; }
+      .header-title { font-size: clamp(36px, 10vw, 72px); }
+    }
+
+    @media (max-width: 600px) {
+      /* Una sola columna en móvil */
+      .news-grid, .biz-cards { grid-template-columns: 1fr; }
+      .footer-inner { grid-template-columns: 1fr; }
+      .header-top { flex-direction: column; gap: 4px; padding: 8px 16px; text-align: center; }
+      .live-clock { justify-content: center; }
+      .header-main { padding: 20px 16px 16px; }
+      .container { padding: 0 16px; }
+      section { padding: 40px 0 30px; }
+      .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
+      nav ul li a { padding: 12px 16px; font-size: 10px; letter-spacing: 0.1em; }
+      .header-title { font-size: clamp(32px, 12vw, 56px); }
+      .article-counter { width: 100%; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════
+     PORTADA / HEADER
+     Contiene: barra con reloj en vivo, logo SVG, h1
+══════════════════════════════════════════════ -->
+<header>
+
+  <!--
+    NUEVA CARACTERÍSTICA 1 — FECHA Y HORA EN VIVO
+    El <span id="live-date"> y <span id="live-time">
+    son actualizados cada segundo por la función
+    updateClock() definida en el bloque <script>.
+  -->
+  <div class="header-top">
+    <!-- Contenedor del reloj: fecha + separador + hora con segundos -->
+    <div class="live-clock">
+      <span id="live-date">cargando fecha...</span>
+      <div class="live-clock-sep"></div>
+      <span class="live-time" id="live-time">00:00:00</span>
+    </div>
+    <span>elfaro.cl</span>
+    <span class="header-edition">Edición N° 1.847</span>
+  </div>
+
+  <!-- Bloque central: ornamento + logo + título + eslogan -->
+  <div class="header-main container">
+    <div class="ornament-rule">✦</div>
+    <div class="logo-wrapper">
+      <!-- Logo creado 100% con primitivas SVG inline -->
+      <svg class="logo-svg" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg"
+           role="img" aria-label="Logotipo El Faro">
+        <!-- Base -->
+        <rect x="30" y="58" width="20" height="18" fill="#c9933a"/>
+        <rect x="26" y="56" width="28" height="4" rx="1" fill="#c9933a"/>
+        <!-- Torre -->
+        <polygon points="36,14 44,14 46,56 34,56" fill="#f8f3e8"/>
+        <polygon points="36,14 44,14 44.5,24 35.5,24" fill="#b8320a"/>
+        <polygon points="35.2,34 44.8,34 45.3,44 34.7,44" fill="#b8320a"/>
+        <!-- Cúpula y luz -->
+        <ellipse cx="40" cy="14" rx="7" ry="4" fill="#c9933a"/>
+        <rect x="33" y="10" width="14" height="6" rx="2" fill="#c9933a"/>
+        <ellipse cx="40" cy="11" rx="5" ry="3" fill="#fff3a0" opacity="0.9"/>
+        <!-- Rayos -->
+        <line x1="40" y1="11" x2="18" y2="4"  stroke="#fff3a0" stroke-width="1.2" opacity="0.7"/>
+        <line x1="40" y1="11" x2="62" y2="4"  stroke="#fff3a0" stroke-width="1.2" opacity="0.7"/>
+        <line x1="40" y1="11" x2="10" y2="14" stroke="#fff3a0" stroke-width="0.8" opacity="0.5"/>
+        <line x1="40" y1="11" x2="70" y2="14" stroke="#fff3a0" stroke-width="0.8" opacity="0.5"/>
+        <!-- Olas -->
+        <path d="M4,74 Q14,70 24,74 Q34,78 44,74 Q54,70 64,74 Q74,78 80,74" fill="none" stroke="#1a4d7c" stroke-width="2.2"/>
+        <path d="M0,78 Q10,74 20,78 Q30,82 40,78 Q50,74 60,78 Q70,82 80,78" fill="none" stroke="#1a4d7c" stroke-width="1.5" opacity="0.6"/>
+      </svg>
+      <h1 class="header-title">El <span>Faro</span></h1>
+    </div>
+    <p class="header-tagline">Iluminando la verdad desde 1979 · Periódico Digital Independiente</p>
+    <div class="ornament-rule">✦</div>
+  </div>
+</header>
+
+<!-- Cinta de titulares animada -->
+<div class="ticker" role="marquee" aria-label="Titulares de última hora">
+  <div class="ticker-label">Última hora</div>
+  <div class="ticker-track">
+    <div class="ticker-inner">
+      <span>Colo-Colo avanza a semifinales de Copa Libertadores</span>
+      <span>Banco Central mantiene tasa de interés en 4,5%</span>
+      <span>La Roja Sub-20 clasifica al Mundial</span>
+      <span>Startup chilena Greenbite levanta US$12M en Serie A</span>
+      <span>Municipio anuncia renovación de infraestructura vial</span>
+    </div>
+  </div>
+</div>
+
+<!-- Navegación principal sticky -->
+<nav role="navigation" aria-label="Menú principal">
+  <ul>
+    <li><a href="#inicio"   class="active">🏠 Inicio</a></li>
+    <li><a href="#deporte">⚽ Deporte</a></li>
+    <li><a href="#negocios">📈 Negocios</a></li>
+    <li><a href="#contacto">✉ Contacto</a></li>
+  </ul>
+</nav>
+
+
+<!-- ══════════════════════════════════════════════
+     SECCIÓN INICIO — Noticias generales
+     Incluye: héroe, contador, formulario y grilla dinámica.
+══════════════════════════════════════════════ -->
+<section id="inicio">
+  <div class="container">
+
+    <p class="section-label">Hoy en El Faro</p>
+    <h2 class="section-title">Noticias de Portada</h2>
+
+    <!--
+      NUEVA CARACTERÍSTICA 4 — CONTADOR DE ARTÍCULOS
+      El span #count-inicio se actualiza automáticamente
+      cada vez que se agrega un artículo en esta sección.
+    -->
+    <div class="article-counter" aria-live="polite">
+      <span class="article-counter-num" id="count-inicio">3</span>
+      <span class="article-counter-label">artículos publicados</span>
+    </div>
+
+    <!-- Hero destacado -->
+    <div class="hero-banner" role="article">
+      <div>
+        <p class="hero-banner-label">★ Noticia principal del día</p>
+        <h2>Gobierno presenta plan de infraestructura digital para regiones del sur</h2>
+        <p>El Ministerio de Ciencia y Tecnología anunció una inversión de 320 mil millones de pesos para desplegar fibra óptica y conectividad 5G en La Araucanía, Los Ríos y Los Lagos.</p>
+      </div>
+      <div class="hero-img-placeholder" aria-hidden="true">☆</div>
+    </div>
+
+    <!--
+      NUEVA CARACTERÍSTICA 2 — FORMULARIO PARA NUEVO ARTÍCULO (INICIO)
+      Campos: título + descripción + botón enviar.
+      El botón "Agregar artículo" abre/cierra el formulario.
+      Al enviar, JS crea una nueva tarjeta en #grid-inicio.
+    -->
+    <div class="add-article-form" id="form-inicio">
+      <div class="add-article-form-header">
+        <span>✏ Publicar nuevo artículo</span>
+        <button class="toggle-form-btn" onclick="toggleForm('body-inicio', this)">+ Agregar</button>
+      </div>
+      <div class="add-article-form-body" id="body-inicio">
+        <!-- Campo de categoría/badge -->
+        <div class="form-group">
+          <label for="cat-inicio">Categoría</label>
+          <input type="text" id="cat-inicio" placeholder="Ej: Nacional, Tecnología, Regional..." maxlength="30">
+        </div>
+        <!-- Campo de título del artículo -->
+        <div class="form-group">
+          <label for="titulo-inicio">Título del artículo <span style="color:var(--accent)">*</span></label>
+          <input type="text" id="titulo-inicio" placeholder="Escriba el título del artículo..." maxlength="120" required>
+        </div>
+        <!-- Campo de descripción/texto del artículo -->
+        <div class="form-group">
+          <label for="texto-inicio">Descripción <span style="color:var(--accent)">*</span></label>
+          <textarea id="texto-inicio" rows="3" placeholder="Escriba el contenido del artículo..." required></textarea>
+        </div>
+        <!-- Botón de envío: llama a addArticle() con el id de la grilla y los contadores -->
+        <button class="submit-article-btn"
+                onclick="addArticle('grid-inicio','cat-inicio','titulo-inicio','texto-inicio','count-inicio','cat-general')">
+          Publicar artículo
+        </button>
+      </div>
+    </div>
+
+    <!-- Grilla de artículos (cargada dinámicamente por JS desde el array DATA) -->
+    <div class="news-grid" id="grid-inicio" aria-label="Noticias de portada"></div>
+
+    <!-- Multimedia -->
+    <p class="section-label">Multimedia</p>
+    <h3 style="font-family:var(--ff-head);font-size:24px;margin-bottom:24px;color:var(--ink);">Video &amp; Audio del día</h3>
+    <div class="media-grid">
+      <div class="media-card">
+        <div class="media-card-header">
+          <div class="icon">▶</div>
+          <span>Video — Reportaje</span>
+        </div>
+        <div class="media-card-body">
+          <h3>Inauguración del Corredor Verde Bío Bío</h3>
+          <p>Nuestro equipo recorrió de extremo a extremo el nuevo corredor verde de Concepción.</p>
+          <video controls preload="metadata"
+            poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 360'%3E%3Crect width='640' height='360' fill='%231a1008'/%3E%3Ccircle cx='320' cy='180' r='42' fill='%23b8320a' opacity='.85'/%3E%3Cpolygon points='310,160 310,200 345,180' fill='white'/%3E%3Ctext x='320' y='270' text-anchor='middle' fill='%23c8b89a' font-family='serif' font-size='16'%3ECorredor Verde Bio Bio — El Faro TV%3C/text%3E%3C/svg%3E"
+            aria-label="Video: Inauguración Corredor Verde Bío Bío">
+            <source src="https://woolyss.com/f/vp9-vorbis-spring.webm" type="video/webm">
+            <p>Tu navegador no soporta video. <a href="https://woolyss.com/f/vp9-vorbis-spring.webm">Descarga</a>.</p>
+          </video>
+        </div>
+      </div>
+      <div class="media-card">
+        <div class="media-card-header">
+          <div class="icon" style="background:var(--accent-2)">♪</div>
+          <span>Audio — Entrevista</span>
+        </div>
+        <div class="media-card-body">
+          <h3>Dra. Valentina Rojas habla sobre la vacuna nasal chilena</h3>
+          <p>La investigadora conversa sobre los plazos para la fase III y la comercialización.</p>
+          <audio controls preload="metadata"
+            aria-label="Audio: Entrevista Dra. Valentina Rojas"
+            style="width:100%;margin-top:10px;">
+            <source src="https://woolyss.com/f/audio-sample.mp3" type="audio/mpeg">
+            <p>Tu navegador no soporta audio. <a href="https://woolyss.com/f/audio-sample.mp3">Descarga</a>.</p>
+          </audio>
+          <div class="quote-box">"Lo que logramos es demostrar que Chile puede hacer ciencia de frontera con impacto global." — Dra. Valentina Rojas</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     SECCIÓN DEPORTE — fútbol, tenis, selección
+══════════════════════════════════════════════ -->
+<section id="deporte">
+  <div class="container">
+
+    <p class="section-label">Sección deportiva</p>
+    <h2 class="section-title">Deporte</h2>
+
+    <!-- NUEVA CARACTERÍSTICA 4 — Contador de artículos deportivos -->
+    <div class="article-counter" aria-live="polite">
+      <span class="article-counter-num" id="count-deporte">3</span>
+      <span class="article-counter-label">artículos deportivos</span>
+    </div>
+
+    <!-- NUEVA CARACTERÍSTICA 2 — Formulario de artículo deportivo -->
+    <div class="add-article-form" id="form-deporte">
+      <div class="add-article-form-header">
+        <span>⚽ Publicar noticia deportiva</span>
+        <button class="toggle-form-btn" onclick="toggleForm('body-deporte', this)">+ Agregar</button>
+      </div>
+      <div class="add-article-form-body" id="body-deporte">
+        <div class="form-group">
+          <label for="cat-deporte">Categoría</label>
+          <input type="text" id="cat-deporte" placeholder="Ej: Fútbol, Tenis, Selección..." maxlength="30">
+        </div>
+        <div class="form-group">
+          <label for="titulo-deporte">Título del artículo <span style="color:var(--green)">*</span></label>
+          <input type="text" id="titulo-deporte" placeholder="Escriba el título de la noticia deportiva..." maxlength="120" required>
+        </div>
+        <div class="form-group">
+          <label for="texto-deporte">Descripción <span style="color:var(--green)">*</span></label>
+          <textarea id="texto-deporte" rows="3" placeholder="Describa la noticia deportiva..." required></textarea>
+        </div>
+        <button class="submit-article-btn"
+                onclick="addArticle('grid-deporte','cat-deporte','titulo-deporte','texto-deporte','count-deporte','cat-deporte')">
+          Publicar noticia
+        </button>
+      </div>
+    </div>
+
+    <!-- Grilla dinámica de noticias deportivas -->
+    <div class="news-grid" id="grid-deporte" aria-label="Noticias deportivas"></div>
+
+    <!-- Tabla de posiciones -->
+    <div class="standings">
+      <h3>⚽ Tabla Campeonato Nacional — Jornada 8</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Pos</th><th>Club</th>
+            <th style="text-align:center">PJ</th><th style="text-align:center">G</th>
+            <th style="text-align:center">E</th><th style="text-align:center">P</th>
+            <th style="text-align:center">Pts</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="font-weight:600">
+            <td>1</td><td>Colo-Colo</td>
+            <td style="text-align:center">8</td><td style="text-align:center">6</td>
+            <td style="text-align:center">1</td><td style="text-align:center">1</td>
+            <td class="pts">19</td>
+          </tr>
+          <tr>
+            <td>2</td><td>U. de Chile</td>
+            <td style="text-align:center">8</td><td style="text-align:center">5</td>
+            <td style="text-align:center">2</td><td style="text-align:center">1</td>
+            <td class="pts">17</td>
+          </tr>
+          <tr>
+            <td>3</td><td>U. Española</td>
+            <td style="text-align:center">8</td><td style="text-align:center">4</td>
+            <td style="text-align:center">3</td><td style="text-align:center">1</td>
+            <td class="pts">15</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     SECCIÓN NEGOCIOS — startups, inmobiliario, energía
+══════════════════════════════════════════════ -->
+<section id="negocios">
+  <div class="container">
+
+    <p class="section-label">Economía y emprendimiento</p>
+    <h2 class="section-title">Negocios</h2>
+
+    <!-- NUEVA CARACTERÍSTICA 4 — Contador de artículos de negocios -->
+    <div class="article-counter" aria-live="polite">
+      <span class="article-counter-num" id="count-negocios">3</span>
+      <span class="article-counter-label">artículos de negocios</span>
+    </div>
+
+    <!-- NUEVA CARACTERÍSTICA 2 — Formulario de artículo de negocios -->
+    <div class="add-article-form" id="form-negocios">
+      <div class="add-article-form-header">
+        <span>📈 Publicar noticia de negocios</span>
+        <button class="toggle-form-btn" onclick="toggleForm('body-negocios', this)">+ Agregar</button>
+      </div>
+      <div class="add-article-form-body" id="body-negocios">
+        <div class="form-group">
+          <label for="cat-negocios">Categoría</label>
+          <input type="text" id="cat-negocios" placeholder="Ej: Startups, Inmobiliario, Energía..." maxlength="30">
+        </div>
+        <div class="form-group">
+          <label for="titulo-negocios">Título del artículo <span style="color:var(--gold)">*</span></label>
+          <input type="text" id="titulo-negocios" placeholder="Escriba el título del artículo de negocios..." maxlength="120" required>
+        </div>
+        <div class="form-group">
+          <label for="texto-negocios">Descripción <span style="color:var(--gold)">*</span></label>
+          <textarea id="texto-negocios" rows="3" placeholder="Describa la noticia de negocios..." required></textarea>
+        </div>
+        <button class="submit-article-btn"
+                onclick="addArticle('grid-negocios','cat-negocios','titulo-negocios','texto-negocios','count-negocios','cat-negocios')">
+          Publicar artículo
+        </button>
+      </div>
+    </div>
+
+    <!-- Grilla dinámica de artículos de negocios -->
+    <div class="biz-cards" id="grid-negocios" aria-label="Noticias de negocios"></div>
+
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     SECCIÓN CONTACTO — NUEVA CARACTERÍSTICA 3
+     Formulario con: nombre, mensaje, botón enviar.
+     Estilos coherentes con el diseño del sitio.
+══════════════════════════════════════════════ -->
+<section id="contacto">
+  <div class="container">
+
+    <p class="section-label">Escríbenos</p>
+    <h2 class="section-title">Contacto</h2>
+
+    <div class="contact-wrapper">
+
+      <!-- Formulario de contacto -->
+      <div class="contact-form-card">
+        <div class="contact-form-header">✉ Envíanos tu mensaje</div>
+        <form class="contact-form" id="contact-form" onsubmit="submitContact(event)">
+
+          <!-- Campo nombre -->
+          <div>
+            <label for="contact-name">Nombre completo *</label>
+            <input type="text" id="contact-name" placeholder="Escribe tu nombre..."
+                   maxlength="80" required>
+          </div>
+
+          <!-- Campo email (bonus de usabilidad) -->
+          <div>
+            <label for="contact-email">Correo electrónico</label>
+            <input type="email" id="contact-email" placeholder="tu@correo.cl">
+          </div>
+
+          <!-- Campo mensaje -->
+          <div>
+            <label for="contact-message">Mensaje *</label>
+            <textarea id="contact-message" rows="5"
+                      placeholder="Escribe tu mensaje, consulta o sugerencia..."
+                      required></textarea>
+          </div>
+
+          <!-- Botón enviar -->
+          <button type="submit" class="contact-submit-btn">
+            Enviar mensaje ✉
+          </button>
+
+          <!-- Confirmación de envío (oculta hasta que se envíe) -->
+          <div class="contact-success" id="contact-success" role="alert">
+            ✅ ¡Mensaje enviado correctamente! Te responderemos a la brevedad.
+          </div>
+
+        </form>
+      </div>
+
+      <!-- Panel lateral de información de contacto -->
+      <div class="contact-info">
+        <div>
+          <h3>El Faro</h3>
+          <p>Fundado en 1979. Periódico digital independiente comprometido con la verdad y el rigor periodístico.</p>
+        </div>
+        <div class="contact-info-item">
+          <div class="contact-info-icon">📍</div>
+          <div>
+            <strong>Dirección</strong>
+            <span>Av. Principal 1200, Of. 305<br>Santiago, Chile</span>
+          </div>
+        </div>
+        <div class="contact-info-item">
+          <div class="contact-info-icon">✉</div>
+          <div>
+            <strong>Correo electrónico</strong>
+            <span>contacto@elfaro.cl<br>redaccion@elfaro.cl</span>
+          </div>
+        </div>
+        <div class="contact-info-item">
+          <div class="contact-info-icon">📞</div>
+          <div>
+            <strong>Teléfono</strong>
+            <span>+56 2 2345 6789</span>
+          </div>
+        </div>
+        <div class="contact-info-item">
+          <div class="contact-info-icon">🕐</div>
+          <div>
+            <strong>Horario de atención</strong>
+            <span>Lunes a Viernes: 9:00 – 18:00 hrs</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     FOOTER — fondo #c9d2d0, texto #31231e
+     CSS Grid asimétrico: 2fr + 1fr + 1fr
+══════════════════════════════════════════════ -->
+<footer role="contentinfo">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="brand-name">El <span>Faro</span></div>
+        <p>Fundado en 1979, El Faro es el periódico digital independiente de referencia. Comprometidos con la verdad y el rigor periodístico.</p>
+        <p style="margin-top:12px;font-size:12px;">📍 Av. Principal 1200, Of. 305 · ✉ contacto@elfaro.cl · 📞 +56 2 2345 6789</p>
+      </div>
+      <div class="footer-col">
+        <h4>Secciones</h4>
+        <ul>
+          <li><a href="#inicio">Inicio</a></li>
+          <li><a href="#deporte">Deporte</a></li>
+          <li><a href="#negocios">Negocios</a></li>
+          <li><a href="#contacto">Contacto</a></li>
+          <li><a href="#">Internacional</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Síguenos</h4>
+        <ul>
+          <li><a href="#">X / Twitter</a></li>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">Facebook</a></li>
+          <li><a href="#">YouTube</a></li>
+          <li><a href="#">Newsletter</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Diario El Faro · Todos los derechos reservados</span>
+      <span>Proyecto académico HTML5 · CSS Grid · DOM · JavaScript</span>
+    </div>
+  </div>
+</footer>
+
+
+<!--
+  ════════════════════════════════════════════════════════════
+  JAVASCRIPT — toda la lógica del sitio
+
+  Funciones implementadas:
+    1. updateClock()      — fecha y hora en vivo con segundos
+    2. renderArticles()   — carga artículos desde el array DATA
+    3. addArticle()       — agrega nuevo artículo al DOM
+    4. toggleForm()       — muestra/oculta el formulario
+    5. submitContact()    — maneja el envío del formulario de contacto
+    6. updateActiveLink() — menú activo según sección visible
+  ════════════════════════════════════════════════════════════
+-->
+<script>
+
+  /* ══════════════════════════════════════════════
+     1. RELOJ EN VIVO — NUEVA CARACTERÍSTICA 1
+     Actualiza cada segundo la fecha y la hora.
+     Usa setInterval() para repetir la ejecución.
+  ══════════════════════════════════════════════ */
+
+  /**
+   * Formatea un número con cero a la izquierda si es menor a 10.
+   * Ej: pad(8) → "08", pad(12) → "12"
+   */
+  function pad(n) {
+    return n < 10 ? '0' + n : String(n);
+  }
+
+  /**
+   * updateClock()
+   * Lee la fecha y hora actuales del sistema,
+   * formatea la salida y actualiza el DOM.
+   */
+  function updateClock() {
+    const now    = new Date();
+    const dias   = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
+    const meses  = ['enero','febrero','marzo','abril','mayo','junio',
+                    'julio','agosto','septiembre','octubre','noviembre','diciembre'];
+
+    /* Formato de fecha: "Martes, 24 de marzo de 2026" */
+    const fechaStr = dias[now.getDay()].charAt(0).toUpperCase()
+                   + dias[now.getDay()].slice(1)
+                   + ', ' + now.getDate()
+                   + ' de ' + meses[now.getMonth()]
+                   + ' de ' + now.getFullYear();
+
+    /* Formato de hora: "14:35:07" (con segundos) */
+    const horaStr = pad(now.getHours()) + ':'
+                  + pad(now.getMinutes()) + ':'
+                  + pad(now.getSeconds());
+
+    /* Actualizar los nodos del DOM */
+    document.getElementById('live-date').textContent = fechaStr;
+    document.getElementById('live-time').textContent = horaStr;
+  }
+
+  /* Ejecutar al cargar la página y repetir cada 1000ms (1 segundo) */
+  updateClock();
+  setInterval(updateClock, 1000);
+
+
+  /* ══════════════════════════════════════════════
+     2. DATOS INICIALES — artículos precargados
+     Cada sección tiene un array con sus artículos.
+     Los artículos se renderizan dinámicamente con
+     renderArticles() al cargar la página.
+  ══════════════════════════════════════════════ */
+
+  /* Array de artículos iniciales para la sección Inicio */
+  const articulosInicio = [
+    {
+      cat: 'Nacional',
+      catClass: 'cat-general',
+      titulo: 'Senado aprueba histórica reforma al sistema de agua potable rural',
+      texto: 'La Cámara Alta ratificó por 35 votos la modificación a la Ley de Agua Potable Rural. Beneficiará a más de 400 localidades con fondos de $18.000 millones anuales.',
+      fecha: '24 Mar 2026'
+    },
+    {
+      cat: 'Ciencia y Tecnología',
+      catClass: 'cat-general',
+      titulo: 'Investigadores de la U. de Chile desarrollan vacuna nasal contra cepa gripal',
+      texto: 'Vacuna intranasal con eficacia del 91% frente a la cepa H5N2, resistente a antivirales. Publicada en The Lancet Infectious Diseases. Fase III en el segundo semestre.',
+      fecha: '24 Mar 2026'
+    },
+    {
+      cat: 'Regional',
+      catClass: 'cat-general',
+      titulo: 'Concepción inaugura primer corredor verde interurbano en la ribera del Bío Bío',
+      texto: 'Ciclovía-parque de 18 km evaluada en $9.200 millones, con paneles solares, iluminación LED y estaciones de bicicletas eléctricas. Reconocida como modelo nacional.',
+      fecha: '2 Mar 2026'
+    }
+  ];
+
+  /* Array de artículos iniciales para la sección Deporte */
+  const articulosDeporte = [
+    {
+      cat: 'Fútbol',
+      catClass: 'cat-deporte',
+      titulo: 'Colo-Colo golea 3-0 a River Plate y sella su pase a semis de la Libertadores',
+      texto: 'Con dos goles de Marcos Bolados y uno de Emiliano Amor, el Cacique aplastó a la banda cruzada. Dominaron el 68% del balón y generaron 14 remates.',
+      fecha: '23 Mar 2026'
+    },
+    {
+      cat: 'Tenis',
+      catClass: 'cat-deporte',
+      titulo: 'Tabilo avanza a cuartos del Masters 1000 de Miami tras vencer al número 4 del mundo',
+      texto: 'El chileno superó a Andrey Rublev (4° ATP) con parciales de 7-5 y 6-4. Mostró un saque dominante con 78% de efectividad.',
+      fecha: '24 Mar 2026'
+    },
+    {
+      cat: 'Selección',
+      catClass: 'cat-deporte',
+      titulo: 'La Roja Sub-20 clasifica al Mundial de Qatar 2027 con goleada sobre Ecuador',
+      texto: 'Chile aseguró su boleto venciendo 3-0 con goles de Nicolás Pino y Darío Osorio Jr. Primer clasificado a dos cupos en 12 años.',
+      fecha: '22 Mar 2026'
+    }
+  ];
+
+  /* Array de artículos iniciales para la sección Negocios */
+  const articulosNegocios = [
+    {
+      cat: 'Startups',
+      catClass: 'cat-negocios',
+      titulo: 'Greenbite recauda US$12M para escalar plataforma de alimentación sostenible',
+      texto: 'La startup chilena de foodtech cerró Serie A con Kaszek Ventures. Conecta agricultores con restaurantes reduciendo el desperdicio en un 40%.',
+      fecha: '24 Mar 2026'
+    },
+    {
+      cat: 'Inmobiliario',
+      catClass: 'cat-negocios',
+      titulo: 'Precios de arriendo en Santiago caen 8% por primera vez en 5 años según el INE',
+      texto: 'Baja generalizada en Providencia, Las Condes y Santiago Centro. Analistas la atribuyen a nuevas unidades de largo plazo y tasas hipotecarias más competitivas.',
+      fecha: '23 Mar 2026'
+    },
+    {
+      cat: 'Energía',
+      catClass: 'cat-negocios',
+      titulo: 'SolarAndes firma PPA para abastecer el 30% de energía del norte con solar',
+      texto: 'Contrato de 20 años con el Ministerio de Energía para 1.800 GWh anuales. Generará 2.400 empleos directos en la construcción del parque fotovoltaico.',
+      fecha: '22 Mar 2026'
+    }
+  ];
+
+  /* Contadores globales de artículos por sección */
+  let contadores = {
+    inicio:   articulosInicio.length,
+    deporte:  articulosDeporte.length,
+    negocios: articulosNegocios.length
+  };
+
+
+  /* ══════════════════════════════════════════════
+     RENDERIZAR ARTÍCULOS INICIALES
+     Construye el HTML de cada artículo a partir
+     de los arrays de datos y los inserta en el DOM.
+  ══════════════════════════════════════════════ */
+
+  /**
+   * createCard(articulo, index, tipo)
+   * Genera el HTML de una tarjeta de artículo.
+   * @param {Object}  articulo - objeto con cat, titulo, texto, fecha
+   * @param {number}  index    - número de posición (para el .card-num)
+   * @param {string}  tipo     - 'normal' o 'negocios' (diferentes layouts)
+   * @returns {string} HTML de la tarjeta
+   */
+  function createCard(articulo, index, tipo) {
+    const num = String(index).padStart(2, '0');
+    const fecha = articulo.fecha || new Date().toLocaleDateString('es-CL', { day:'numeric', month:'short', year:'numeric' });
+
+    if (tipo === 'negocios') {
+      /* Layout de biz-card con imagen SVG placeholder */
+      return `
+        <article class="biz-card">
+          <div class="biz-card-img" style="height:100px;background:linear-gradient(135deg,#1a0f05,#2d1f0e);display:flex;align-items:center;justify-content:center;">
+            <span style="font-size:36px;opacity:0.4">📊</span>
+          </div>
+          <div class="biz-card-body">
+            <span class="news-category ${articulo.catClass}">${articulo.cat}</span>
+            <h3>${articulo.titulo}</h3>
+            <p>${articulo.texto}</p>
+          </div>
+          <div class="biz-card-footer">
+            <span>${fecha}</span>
+            <span>→ Leer más</span>
+          </div>
+        </article>`;
+    }
+
+    /* Layout de news-card estándar */
+    return `
+      <article class="news-card">
+        <span class="news-category ${articulo.catClass}">${articulo.cat}</span>
+        <div class="card-num">${num}</div>
+        <div class="news-title-cell">${articulo.titulo}</div>
+        <div class="news-text">${articulo.texto}</div>
+        <div class="card-date">${fecha}</div>
+      </article>`;
+  }
+
+  /**
+   * renderArticles(gridId, articulos, tipo)
+   * Inserta todas las tarjetas de un array en un contenedor del DOM.
+   */
+  function renderArticles(gridId, articulos, tipo) {
+    const grid = document.getElementById(gridId);
+    grid.innerHTML = articulos
+      .map((a, i) => createCard(a, i + 1, tipo))
+      .join('');
+  }
+
+  /* Renderizar las tres secciones al cargar la página */
+  renderArticles('grid-inicio',   articulosInicio,   'normal');
+  renderArticles('grid-deporte',  articulosDeporte,  'normal');
+  renderArticles('grid-negocios', articulosNegocios, 'negocios');
+
+
+  /* ══════════════════════════════════════════════
+     FORMULARIO — NUEVA CARACTERÍSTICA 2
+     Lógica para agregar artículos dinámicamente.
+  ══════════════════════════════════════════════ */
+
+  /**
+   * toggleForm(bodyId, btn)
+   * Abre o cierra el cuerpo del formulario.
+   * Cambia el texto del botón según el estado.
+   */
+  function toggleForm(bodyId, btn) {
+    const body = document.getElementById(bodyId);
+    const isOpen = body.classList.toggle('open');
+    btn.textContent = isOpen ? '− Cerrar' : '+ Agregar';
+  }
+
+  /**
+   * addArticle(gridId, catId, tituloId, textoId, counterId, catClass)
+   * Lee los campos del formulario, crea una nueva tarjeta
+   * y la añade al inicio de la grilla.
+   * También actualiza el contador de artículos.
+   */
+  function addArticle(gridId, catId, tituloId, textoId, counterId, catClass) {
+    /* Leer valores de los campos de formulario */
+    const catInput    = document.getElementById(catId);
+    const tituloInput = document.getElementById(tituloId);
+    const textoInput  = document.getElementById(textoId);
+
+    const cat    = catInput.value.trim()    || 'General';
+    const titulo = tituloInput.value.trim();
+    const texto  = textoInput.value.trim();
+
+    /* Validación: el título y el texto son obligatorios */
+    if (!titulo || !texto) {
+      alert('⚠ Por favor, complete el título y la descripción del artículo.');
+      return;
+    }
+
+    /* Obtener la grilla destino */
+    const grid = document.getElementById(gridId);
+
+    /* Determinar el tipo de card según el contenedor */
+    const tipo = gridId === 'grid-negocios' ? 'negocios' : 'normal';
+
+    /* Calcular el nuevo número de artículo */
+    const newIndex = grid.children.length + 1;
+
+    /* Fecha de publicación: fecha actual */
+    const fecha = new Date().toLocaleDateString('es-CL', {
+      day: 'numeric', month: 'short', year: 'numeric'
+    });
+
+    /* Crear el objeto artículo */
+    const articulo = { cat, catClass, titulo, texto, fecha };
+
+    /* Generar HTML e insertar al inicio de la grilla */
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = createCard(articulo, newIndex, tipo);
+    const newCard = tempDiv.firstElementChild;
+
+    /* Animación suave: empieza invisible y aparece */
+    newCard.style.opacity = '0';
+    newCard.style.transform = 'translateY(-12px)';
+    newCard.style.transition = 'opacity 0.35s ease, transform 0.35s ease';
+    grid.insertBefore(newCard, grid.firstChild);
+
+    /* Forzar reflow para que la animación se aplique */
+    newCard.getBoundingClientRect();
+    newCard.style.opacity = '1';
+    newCard.style.transform = 'translateY(0)';
+
+    /* Actualizar el contador de artículos */
+    const counterEl = document.getElementById(counterId);
+    counterEl.textContent = parseInt(counterEl.textContent) + 1;
+
+    /* Limpiar los campos del formulario */
+    catInput.value    = '';
+    tituloInput.value = '';
+    textoInput.value  = '';
+
+    /* Dar foco al campo de título para facilitar la próxima entrada */
+    tituloInput.focus();
+
+    /* Hacer scroll suave hasta la nueva tarjeta */
+    newCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+
+  /* ══════════════════════════════════════════════
+     FORMULARIO DE CONTACTO — NUEVA CARACTERÍSTICA 3
+  ══════════════════════════════════════════════ */
+
+  /**
+   * submitContact(e)
+   * Previene el envío real del formulario (no hay backend),
+   * valida los campos y muestra el mensaje de confirmación.
+   */
+  function submitContact(e) {
+    e.preventDefault(); /* evitar recarga de la página */
+
+    const nombre  = document.getElementById('contact-name').value.trim();
+    const mensaje = document.getElementById('contact-message').value.trim();
+
+    if (!nombre || !mensaje) {
+      alert('⚠ Por favor, complete el nombre y el mensaje.');
+      return;
+    }
+
+    /* Ocultar el formulario y mostrar el mensaje de éxito */
+    document.getElementById('contact-form').style.opacity = '0.5';
+    document.getElementById('contact-form').style.pointerEvents = 'none';
+    document.getElementById('contact-success').classList.add('visible');
+
+    /* Restaurar el formulario después de 5 segundos */
+    setTimeout(() => {
+      document.getElementById('contact-form').reset();
+      document.getElementById('contact-form').style.opacity = '1';
+      document.getElementById('contact-form').style.pointerEvents = 'auto';
+      document.getElementById('contact-success').classList.remove('visible');
+    }, 5000);
+  }
+
+
+  /* ══════════════════════════════════════════════
+     NAVEGACIÓN ACTIVA — menú resaltado según scroll
+  ══════════════════════════════════════════════ */
+
+  /* Seleccionar todas las secciones con id y todos los links del nav */
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('nav ul li a');
+
+  /**
+   * updateActiveLink()
+   * Compara la posición del scroll con el offsetTop de cada sección.
+   * Añade la clase "active" al link correspondiente.
+   */
+  function updateActiveLink() {
+    let current = '';
+    sections.forEach(section => {
+      if (window.scrollY >= section.offsetTop - 80) {
+        current = section.getAttribute('id');
+      }
+    });
+    navLinks.forEach(link => {
+      link.classList.remove('active');
+      if (link.getAttribute('href') === '#' + current) {
+        link.classList.add('active');
+      }
+    });
+  }
+
+  /* Escuchar el evento scroll y ejecutar al cargar */
+  window.addEventListener('scroll', updateActiveLink);
+  updateActiveLink();
+
+  /* Navegación suave al hacer clic en los links del menú */
+  navLinks.forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(link.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+</script>
+
+</body>
+</html>
