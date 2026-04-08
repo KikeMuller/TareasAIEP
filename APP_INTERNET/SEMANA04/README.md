@@ -6,7 +6,7 @@
 ## Estructura de carpetas
 
 ```
-SEMANANA04/
+SEMANA04/
 │
 ├── index.html          ← Archivo principal (todo integrado)
 │
