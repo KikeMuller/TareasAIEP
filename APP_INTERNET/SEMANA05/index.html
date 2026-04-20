@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>El Faro — Periódico Digital</title>
+
+  <!--
+  ════════════════════════════════════════════════════════
+  EL FARO v6 — Framework UI: Bootstrap 5.3
+  Nuevo diseño con componentes Bootstrap:
+    · Alert dismissible (barra de avisos)
+    · Navbar con Dropdowns (menú ampliado)
+    · Card hero + Row/Col grid (artículos)
+    · Footer multi-columna ampliado
+    · Form con validación Bootstrap
+    · Badge, Collapse, Alert success
+  ════════════════════════════════════════════════════════
+  -->
+
+  <!-- Bootstrap 5.3 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+        rel="stylesheet" crossorigin="anonymous">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+        rel="stylesheet" crossorigin="anonymous">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap"
+        rel="stylesheet" />
+
+  <style>
+    /* ════════════════════════════════════════════════════
+       VARIABLES GLOBALES DE MARCA
+       Se usan en combinación con las clases de Bootstrap.
+    ════════════════════════════════════════════════════ */
+    :root {
+      --ef-ink:        #1a1008;
+      --ef-cream:      #f8f3e8;
+      --ef-accent:     #b8320a;
+      --ef-blue:       #1a4d7c;
+      --ef-green:      #1b6b3a;
+      --ef-gold:       #c9933a;
+      --ef-gray:       #f5f5f5;
+      --ef-footer-bg:  #c9d2d0;
+      --ef-footer-txt: #31231e;
+      --ff-head:       'Lora', Georgia, serif;
+      --ff-body:       'Inter', sans-serif;
+    }
+
+    /* Tipografía base */
+    body { font-family: var(--ff-body); color: var(--ef-ink); background: var(--ef-gray); }
+    h1, h2, h3, h4, h5 { font-family: var(--ff-head); }
+
+    /* Links: subrayado por defecto, negrita sin subrayado en hover */
+    a { text-decoration: underline; }
+    a:hover { font-weight: 600; text-decoration: none; }
+
+    /* ════════════════════════════════════════════════════
+       RF-01 — BARRA DE AVISOS (Bootstrap Alert dismissible)
+       color de fondo personalizado manteniendo Bootstrap
+    ════════════════════════════════════════════════════ */
+    .ef-alert-bar {
+      background: var(--ef-ink);
+      border: none;
+      border-bottom: 3px solid var(--ef-accent);
+      border-radius: 0;
+      color: var(--ef-cream);
+      padding: 8px 0;
+    }
+    .ef-alert-bar .live-time {
+      color: var(--ef-gold);
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
+      font-family: monospace;
+      font-size: .9rem;
+    }
+    .ef-alert-bar .alert-link { color: var(--ef-gold); }
+    .ef-alert-bar .btn-close  { filter: invert(1) sepia(1) saturate(2) hue-rotate(15deg); opacity: .7; }
+
+    /* ════════════════════════════════════════════════════
+       HEADER PRINCIPAL — Logo y nombre del periódico
+    ════════════════════════════════════════════════════ */
+    .ef-masthead {
+      background: var(--ef-ink);
+      border-bottom: 5px solid var(--ef-accent);
+      color: var(--ef-cream);
+      padding: 28px 0 22px;
+    }
+    .ef-masthead .paper-name {
+      font-family: var(--ff-head);
+      font-size: clamp(2.8rem, 7vw, 5rem);
+      font-weight: 700;
+      letter-spacing: -2px;
+      color: var(--ef-cream);
+      line-height: 1;
+    }
+    .ef-masthead .paper-name span { color: var(--ef-gold); }
+    .ef-masthead .tagline {
+      font-size: .72rem;
+      letter-spacing: .35em;
+      text-transform: uppercase;
+      color: #a89070;
+    }
+    .ef-ornament {
+      display: flex; align-items: center; gap: 10px; color: var(--ef-gold);
+    }
+    .ef-ornament::before, .ef-ornament::after {
+      content: ''; flex: 1; height: 1px;
+      background: linear-gradient(to right, transparent, var(--ef-gold), transparent);
+    }
+
+    /* ════════════════════════════════════════════════════
+       RF-02 — NAVBAR con Dropdowns (Bootstrap Navbar)
+       Sticky, colores de marca, toggler para móvil
+    ════════════════════════════════════════════════════ */
+    #mainNav {
+      background: #2b1f10 !important;
+      border-bottom: 2px solid #3a2a18;
+    }
+    #mainNav .navbar-brand {
+      font-family: var(--ff-head);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--ef-gold) !important;
+    }
+    #mainNav .nav-link {
+      color: #d4c5a9 !important;
+      font-size: .78rem;
+      font-weight: 500;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      text-decoration: underline;
+      padding: .85rem 1rem !important;
+      border-right: 1px solid #3a2a18;
+      transition: background .2s, color .2s;
+    }
+    #mainNav .nav-item:first-child .nav-link { border-left: 1px solid #3a2a18; }
+    #mainNav .nav-link:hover, #mainNav .nav-link.active {
+      background: var(--ef-accent) !important;
+      color: #fff !important;
+      font-weight: 600;
+      text-decoration: none;
+    }
+    /* Dropdowns */
+    #mainNav .dropdown-menu {
+      background: var(--ef-ink);
+      border: 1px solid #3a2a18;
+      border-radius: 0 0 8px 8px;
+      padding: 4px 0;
+    }
+    #mainNav .dropdown-item {
+      color: #d4c5a9;
+      font-size: .82rem;
+      padding: 8px 18px;
+      text-decoration: none;
+    }
+    #mainNav .dropdown-item:hover {
+      background: var(--ef-accent);
+      color: #fff;
+    }
+    #mainNav .dropdown-divider { border-color: #3a2a18; }
+    /* Toggler personalizado */
+    #mainNav .navbar-toggler { border-color: #3a2a18; }
+    #mainNav .navbar-toggler-icon {
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(212,197,169,1)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+    }
+
+    /* ════════════════════════════════════════════════════
+       SECCIONES — encabezados con línea de acento
+    ════════════════════════════════════════════════════ */
+    .ef-section { padding: 56px 0 48px; }
+    .ef-section + .ef-section { border-top: 3px double #3d2e1e; }
+    #deporte  { background: linear-gradient(180deg, #f0f7f0 0%, var(--ef-gray) 100%); }
+    #negocios { background: var(--ef-gray); }
+    #contacto { background: #fff; }
+
+    .section-eyebrow {
+      font-size: .7rem;
+      letter-spacing: .4em;
+      text-transform: uppercase;
+      color: var(--ef-accent);
+      margin-bottom: 4px;
+    }
+    .section-heading {
+      font-family: var(--ff-head);
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--ef-ink);
+      border-bottom: 4px solid var(--ef-ink);
+      padding-bottom: 10px;
+      margin-bottom: 0;
+      position: relative;
+    }
+    .section-heading::after {
+      content: ''; position: absolute; bottom: -4px; left: 0;
+      width: 70px; height: 4px; background: var(--ef-accent);
+    }
+    #deporte  .section-heading::after { background: var(--ef-green); }
+    #negocios .section-heading::after { background: var(--ef-gold); }
+    #contacto .section-heading::after { background: var(--ef-blue); }
+
+    /* ════════════════════════════════════════════════════
+       RF-10 — CONTADOR DE ARTÍCULOS (por sección)
+    ════════════════════════════════════════════════════ */
+    .article-counter {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: #fff; border: 1px solid #e0e0e0; border-radius: 6px;
+      padding: 5px 14px; box-shadow: 0 1px 6px rgba(0,0,0,.06);
+    }
+    .ac-num {
+      font-family: var(--ff-head); font-size: 1.3rem;
+      font-weight: 700; color: var(--ef-accent); line-height: 1;
+    }
+    .ac-lbl { font-size: .78rem; color: #6b7280; }
+    #deporte  .ac-num { color: var(--ef-green); }
+    #negocios .ac-num { color: var(--ef-gold); }
+    #contacto .section-heading::after { background: var(--ef-blue); }
+
+    /* ════════════════════════════════════════════════════
+       RF-01 TICKER — cinta de últimas noticias
+    ════════════════════════════════════════════════════ */
+    .ef-ticker {
+      background: var(--ef-accent); color: #fff;
+      display: flex; align-items: center; overflow: hidden; height: 34px;
+    }
+    .et-label {
+      background: #8a2206; padding: 0 14px; height: 100%;
+      display: flex; align-items: center; white-space: nowrap;
+      font-size: .72rem; font-weight: 600; letter-spacing: .2em; text-transform: uppercase;
+    }
+    .et-track { flex: 1; overflow: hidden; padding: 0 16px; }
+    .et-inner {
+      display: inline-block; white-space: nowrap;
+      animation: ticker-run 30s linear infinite;
+      font-size: .78rem;
+    }
+    .et-inner span { margin-right: 60px; }
+    .et-inner span::before { content: '◆ '; font-size: .5rem; vertical-align: middle; }
+    @keyframes ticker-run { 0%{ transform:translateX(100%); } 100%{ transform:translateX(-100%); } }
+
+    /* ════════════════════════════════════════════════════
+       RF-03 — HERO CARD (artículo destacado)
+       Usa Bootstrap Card + utilidades + overlay
+    ════════════════════════════════════════════════════ */
+    .hero-card {
+      position: relative; border-radius: 10px; overflow: hidden;
+      min-height: 360px; background: var(--ef-ink);
+      box-shadow: 0 4px 24px rgba(0,0,0,.18);
+    }
+    .hero-card-bg {
+      position: absolute; inset: 0; object-fit: cover; width: 100%; height: 100%;
+      opacity: .35;
+    }
+    .hero-card-body {
+      position: relative; z-index: 2;
+      padding: 40px; color: #fff;
+      background: linear-gradient(135deg, rgba(26,16,8,.85) 55%, transparent);
+      min-height: 360px;
+      display: flex; flex-direction: column; justify-content: flex-end;
+    }
+    .hero-card .article-cat {
+      font-size: .7rem; font-weight: 700; letter-spacing: .2em;
+      text-transform: uppercase; padding: 4px 12px; border-radius: 3px;
+      margin-bottom: 12px; display: inline-block;
+    }
+    .hero-card h2 {
+      font-family: var(--ff-head);
+      font-size: clamp(1.4rem, 3vw, 2.2rem);
+      font-weight: 700; line-height: 1.25; margin-bottom: 14px;
+    }
+    .hero-card .hero-text { font-size: .9rem; color: #c8b89a; margin-bottom: 20px; }
+    .hero-card .hero-date { font-size: .78rem; color: #a89070; }
+
+    /* ════════════════════════════════════════════════════
+       RF-04 — TARJETAS SECUNDARIAS (Bootstrap Cards)
+    ════════════════════════════════════════════════════ */
+    .news-card {
+      background: #fff; border: 1px solid #e0e0e0;
+      border-radius: 10px; height: 100%;
+      transition: background .25s, color .25s, transform .2s, box-shadow .2s;
+      cursor: pointer; overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0,0,0,.06);
+    }
+    .news-card:hover {
+      background: #111; color: #fff;
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0,0,0,.25);
+    }
+    .news-card:hover .card-title,
+    .news-card:hover .card-text,
+    .news-card:hover .card-date { color: #fff !important; }
+    .news-card:hover .card-footer-bar { border-top-color: rgba(255,255,255,.15); color: rgba(255,255,255,.6); }
+    .news-card .card-num {
+      font-family: var(--ff-head); font-size: 2rem; font-weight: 700;
+      color: #e0e0e0; line-height: 1; padding: 16px 16px 0;
+      transition: color .25s;
+    }
+    .news-card:hover .card-num { color: rgba(255,255,255,.2); }
+    .news-card .card-body { padding: 10px 16px 12px; }
+    .news-card .card-title {
+      font-family: var(--ff-head); font-size: 1rem; font-weight: 700;
+      line-height: 1.35; color: var(--ef-ink); transition: color .25s;
+    }
+    .news-card .card-text { font-size: .82rem; color: #6b7280; transition: color .25s; }
+    .card-footer-bar {
+      padding: 8px 16px; border-top: 1px solid #f0f0f0;
+      font-size: .75rem; color: #9a8060;
+      display: flex; justify-content: space-between;
+      background: transparent;
+      transition: color .25s, border-color .25s;
+    }
+    .card-date { color: #9a8060; font-size: .78rem; transition: color .25s; }
+
+    /* ════════════════════════════════════════════════════
+       MULTIMEDIA — Video y Audio
+    ════════════════════════════════════════════════════ */
+    .media-card-header {
+      background: var(--ef-ink); color: var(--ef-cream);
+      border-radius: 8px 8px 0 0;
+      padding: 10px 16px; font-size: .78rem;
+      letter-spacing: .15em; text-transform: uppercase;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .media-icon-circle {
+      width: 26px; height: 26px; border-radius: 50%;
+      background: var(--ef-accent);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .8rem; color: #fff; flex-shrink: 0;
+    }
+    video, audio { width: 100%; border-radius: 4px; accent-color: var(--ef-accent); }
+    .quote-box {
+      background: #f5f5f5; border-left: 3px solid var(--ef-blue);
+      border-radius: 4px; padding: 10px 12px;
+      font-size: .82rem; color: #374151; font-style: italic; margin-top: 12px;
+    }
+
+    /* ════════════════════════════════════════════════════
+       FORMULARIO DE NUEVO ARTÍCULO — Bootstrap Collapse
+    ════════════════════════════════════════════════════ */
+    .add-article-panel {
+      background: #fff; border: 1px solid #e0e0e0; border-radius: 10px;
+      overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,.06);
+      margin-bottom: 24px;
+    }
+    .aap-header {
+      background: var(--ef-ink); color: var(--ef-cream);
+      padding: 12px 18px; display: flex; align-items: center; justify-content: space-between;
+    }
+    .aap-header span { font-size: .78rem; font-weight: 600; letter-spacing: .15em; text-transform: uppercase; }
+    .aap-body { padding: 20px; }
+    .aap-submit-btn { background: var(--ef-accent) !important; border-color: var(--ef-accent) !important; }
+    .aap-submit-btn:hover { background: #922808 !important; border-color: #922808 !important; }
+    #deporte  .aap-submit-btn { background: var(--ef-green) !important; border-color: var(--ef-green) !important; }
+    #negocios .aap-submit-btn { background: #8a6020 !important; border-color: #8a6020 !important; }
+
+    /* ════════════════════════════════════════════════════
+       TABLA DE POSICIONES
+    ════════════════════════════════════════════════════ */
+    .standings-title {
+      font-family: var(--ff-head); font-size: 1.1rem; color: var(--ef-ink);
+      border-bottom: 2px solid var(--ef-green); padding-bottom: 6px;
+    }
+    .pts-highlight { color: var(--ef-green); font-weight: 700; }
+
+    /* ════════════════════════════════════════════════════
+       RF-05 — FOOTER AMPLIADO (multi-columna Bootstrap Grid)
+    ════════════════════════════════════════════════════ */
+    #mainFooter {
+      background: var(--ef-footer-bg);
+      color: var(--ef-footer-txt);
+      padding: 60px 0 0;
+      margin-top: 0;
+    }
+    #mainFooter h5 {
+      font-size: .75rem; font-weight: 700; letter-spacing: .25em;
+      text-transform: uppercase; color: #4a3528; margin-bottom: 16px;
+    }
+    #mainFooter .brand-name {
+      font-family: var(--ff-head); font-size: 2rem; font-weight: 700;
+      color: var(--ef-footer-txt); line-height: 1; margin-bottom: 10px;
+    }
+    #mainFooter .brand-name span { color: #5a4030; }
+    #mainFooter p { font-size: .88rem; line-height: 1.7; }
+    #mainFooter ul { list-style: none; padding: 0; }
+    #mainFooter ul li { padding: 4px 0; border-bottom: 1px solid rgba(49,35,30,.12); font-size: .88rem; }
+    #mainFooter a { color: var(--ef-footer-txt); text-decoration: underline; }
+    #mainFooter a:hover { color: #000; font-weight: 600; text-decoration: none; }
+    .footer-social-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(49,35,30,.12); border-radius: 6px;
+      padding: 6px 12px; font-size: .82rem; color: var(--ef-footer-txt);
+      text-decoration: none; margin: 2px; transition: background .2s;
+    }
+    .footer-social-btn:hover { background: rgba(49,35,30,.25); color: #000; text-decoration: none; }
+    .newsletter-input {
+      border: 1.5px solid rgba(49,35,30,.2);
+      background: rgba(255,255,255,.5);
+      border-radius: 6px; padding: 8px 12px; font-size: .88rem;
+      width: 100%; outline: none;
+    }
+    .newsletter-input:focus { border-color: var(--ef-accent); box-shadow: 0 0 0 2px rgba(184,50,10,.12); }
+    .newsletter-btn {
+      background: var(--ef-accent); color: #fff; border: none;
+      border-radius: 6px; padding: 8px 16px; font-size: .88rem; font-weight: 600; cursor: pointer;
+      transition: background .2s;
+    }
+    .newsletter-btn:hover { background: #922808; }
+    .footer-bottom-bar {
+      background: rgba(49,35,30,.15);
+      padding: 18px 0; margin-top: 40px;
+    }
+    .footer-bottom-bar .container {
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 8px; font-size: .8rem;
+    }
+
+    /* ════════════════════════════════════════════════════
+       RESPONSIVE — ajustes finos sobre Bootstrap
+    ════════════════════════════════════════════════════ */
+    @media (max-width: 768px) {
+      .hero-card-body { padding: 24px; min-height: 280px; }
+      .ef-masthead .paper-name { font-size: 2.6rem; }
+      #mainNav .nav-link { border-right: none; border-bottom: 1px solid #3a2a18; }
+      #mainNav .nav-item:first-child .nav-link { border-left: none; }
+    }
+    @media (max-width: 576px) {
+      .ef-alert-bar .container { flex-direction: column; gap: 4px; }
+      .footer-bottom-bar .container { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!--
+  ════════════════════════════════════════════════════════
+  RF-01 — BARRA SUPERIOR DE AVISOS
+  Bootstrap: .alert .alert-dismissible + data-bs-dismiss
+  Incluye reloj en vivo (setInterval) + mensaje de aviso
+  ════════════════════════════════════════════════════════
+-->
+<div class="alert ef-alert-bar mb-0 alert-dismissible fade show" role="alert" id="alertBar">
+  <div class="container d-flex align-items-center justify-content-between flex-wrap gap-2 py-0">
+    <!-- Reloj en vivo (RF-09) -->
+    <div class="d-flex align-items-center gap-2" style="font-size:.82rem;">
+      <span id="live-date" style="color:#c8b89a;">cargando...</span>
+      <span style="width:1px;height:14px;background:#5a4030;display:inline-block;"></span>
+      <span class="live-time" id="live-time">00:00:00</span>
+    </div>
+    <!-- Aviso central -->
+    <div class="text-center flex-grow-1">
+      <i class="bi bi-megaphone-fill me-1" style="color:var(--ef-gold)"></i>
+      <strong style="color:var(--ef-gold)">Aviso:</strong>
+      <span style="font-size:.82rem;"> Nueva edición disponible — Copa de la Liga 2026 · Edición N°&nbsp;1.848</span>
+      <a href="#deporte" class="alert-link ms-2" style="font-size:.82rem;">Ver noticias →</a>
+    </div>
+    <!-- Botón cerrar (Bootstrap dismiss) -->
+    <button type="button" class="btn-close btn-close-white ms-2" data-bs-dismiss="alert" aria-label="Cerrar aviso"></button>
+  </div>
+</div>
+
+
+<!--
+  ════════════════════════════════════════════════════════
+  MASTHEAD — Header del periódico con logo SVG y título
+  ════════════════════════════════════════════════════════
+-->
+<header class="ef-masthead">
+  <div class="container">
+    <div class="ef-ornament mb-2">✦</div>
+    <div class="d-flex align-items-center justify-content-center gap-4 flex-wrap">
+      <!-- Logo SVG inline -->
+      <svg width="72" height="72" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg"
+           role="img" aria-label="Logo El Faro">
+        <rect x="30" y="58" width="20" height="18" fill="#c9933a"/>
+        <rect x="26" y="56" width="28" height="4" rx="1" fill="#c9933a"/>
+        <polygon points="36,14 44,14 46,56 34,56" fill="#f8f3e8"/>
+        <polygon points="36,14 44,14 44.5,24 35.5,24" fill="#b8320a"/>
+        <polygon points="35.2,34 44.8,34 45.3,44 34.7,44" fill="#b8320a"/>
+        <ellipse cx="40" cy="14" rx="7" ry="4" fill="#c9933a"/>
+        <rect x="33" y="10" width="14" height="6" rx="2" fill="#c9933a"/>
+        <ellipse cx="40" cy="11" rx="5" ry="3" fill="#fff3a0" opacity=".9"/>
+        <line x1="40" y1="11" x2="18" y2="4"  stroke="#fff3a0" stroke-width="1.2" opacity=".7"/>
+        <line x1="40" y1="11" x2="62" y2="4"  stroke="#fff3a0" stroke-width="1.2" opacity=".7"/>
+        <line x1="40" y1="11" x2="10" y2="14" stroke="#fff3a0" stroke-width=".8" opacity=".5"/>
+        <line x1="40" y1="11" x2="70" y2="14" stroke="#fff3a0" stroke-width=".8" opacity=".5"/>
+        <path d="M4,74 Q14,70 24,74 Q34,78 44,74 Q54,70 64,74 Q74,78 80,74" fill="none" stroke="#1a4d7c" stroke-width="2.2"/>
+        <path d="M0,78 Q10,74 20,78 Q30,82 40,78 Q50,74 60,78 Q70,82 80,78" fill="none" stroke="#1a4d7c" stroke-width="1.5" opacity=".6"/>
+      </svg>
+      <div class="text-center">
+        <h1 class="paper-name mb-0">El <span>Faro</span></h1>
+        <p class="tagline mb-0 mt-1">Iluminando la verdad desde 1979 · Periódico Digital Independiente</p>
+      </div>
+    </div>
+    <div class="ef-ornament mt-2">✦</div>
+  </div>
+</header>
+
+
+<!--
+  ════════════════════════════════════════════════════════
+  TICKER — Cinta de últimas noticias (CSS animation)
+  ════════════════════════════════════════════════════════
+-->
+<div class="ef-ticker" role="marquee" aria-label="Últimas noticias">
+  <div class="et-label">Última hora</div>
+  <div class="et-track">
+    <div class="et-inner">
+      <span>Colo-Colo golea 3-0 a River Plate y sella pase a semis de la Libertadores</span>
+      <span>Banco Central mantiene tasa de interés en 4,5%</span>
+      <span>La Roja Sub-20 clasifica al Mundial de Qatar 2027</span>
+      <span>Startup Greenbite levanta US$12M en ronda Serie A</span>
+      <span>SolarAndes firma PPA para el 30% de energía del norte</span>
+    </div>
+  </div>
+</div>
+
+
+<!--
+  ════════════════════════════════════════════════════════
+  RF-02 — NAVEGACIÓN PRINCIPAL (Bootstrap Navbar)
+  · sticky-top con z-index alto
+  · Dropdowns para Deporte y Negocios
+  · Toggler automático en móvil
+  · Ítem activo resaltado con .active
+  ════════════════════════════════════════════════════════
+-->
+<nav id="mainNav" class="navbar navbar-expand-lg sticky-top" role="navigation" aria-label="Menú principal">
+  <div class="container">
+    <!-- Brand visible en móvil cuando el menú está colapsado -->
+    <a class="navbar-brand d-lg-none" href="#inicio">El Faro</a>
+    <!-- Toggler hamburguesa (Bootstrap lo gestiona automáticamente) -->
+    <button class="navbar-toggler" type="button"
+            data-bs-toggle="collapse" data-bs-target="#navContent"
+            aria-controls="navContent" aria-expanded="false" aria-label="Abrir menú">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <!-- Contenido del menú colapsable -->
+    <div class="collapse navbar-collapse" id="navContent">
+      <ul class="navbar-nav mx-auto">
+
+        <!-- Inicio -->
+        <li class="nav-item">
+          <a class="nav-link active" href="#inicio" aria-current="page">
+            <i class="bi bi-house-fill me-1"></i>Inicio
+          </a>
+        </li>
+
+        <!-- Deporte con Dropdown -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#deporte" role="button"
+             data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-trophy-fill me-1"></i>Deporte
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#deporte"><i class="bi bi-circle-fill me-2" style="font-size:.5rem;color:#c9933a"></i>Fútbol Nacional</a></li>
+            <li><a class="dropdown-item" href="#deporte"><i class="bi bi-circle-fill me-2" style="font-size:.5rem;color:#c9933a"></i>Tenis — ATP/WTA</a></li>
+            <li><a class="dropdown-item" href="#deporte"><i class="bi bi-circle-fill me-2" style="font-size:.5rem;color:#c9933a"></i>Selección Chilena</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#deporte"><i class="bi bi-circle-fill me-2" style="font-size:.5rem;color:#c9933a"></i>Copa Libertadores</a></li>
+          </ul>
+        </li>
+
+        <!-- Negocios con Dropdown -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#negocios" role="button"
+             data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-graph-up-arrow me-1"></i>Negocios
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#negocios"><i class="bi bi-circle-fill me-2" style="font-size:.5rem;color:#c9933a"></i>Startups &amp; Tecnología</a></li>
+            <li><a class="dropdown-item" href="#negocios"><i class="bi bi-circle-fill me-2" style="font-size:.5rem;color:#c9933a"></i>Mercado Inmobiliario</a></li>
+            <li><a class="dropdown-item" href="#negocios"><i class="bi bi-circle-fill me-2" style="font-size:.5rem;color:#c9933a"></i>Energías Renovables</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#negocios"><i class="bi bi-circle-fill me-2" style="font-size:.5rem;color:#c9933a"></i>Economía Nacional</a></li>
+          </ul>
+        </li>
+
+        <!-- Contacto — acceso directo separado -->
+        <li class="nav-item">
+          <a class="nav-link" href="#contacto">
+            <i class="bi bi-envelope-fill me-1"></i>Contacto
+          </a>
+        </li>
+
+      </ul>
+    </div><!-- /collapse -->
+  </div><!-- /container -->
+</nav>
+
+
+<!-- ════════════════════════════════════════════════════
+     SECCIÓN INICIO
+════════════════════════════════════════════════════ -->
+<section id="inicio" class="ef-section">
+  <div class="container">
+
+    <p class="section-eyebrow">Hoy en El Faro</p>
+    <h2 class="section-heading mb-2">Noticias de Portada</h2>
+
+    <!-- RF-10 Contador -->
+    <div class="article-counter mb-4" aria-live="polite">
+      <span class="ac-num" id="count-inicio">3</span>
+      <span class="ac-lbl">artículos publicados</span>
+    </div>
+
+    <!-- RF-03 HERO — artículo más reciente y destacado (Bootstrap Row + custom hero-card) -->
+    <div class="row g-4 mb-4">
+      <div class="col-lg-8">
+        <div class="hero-card">
+          <!-- fondo degradado SVG como imagen de "portada" -->
+          <div style="position:absolute;inset:0;background:linear-gradient(135deg,#2d1f0e,#1a4d7c);opacity:.5;"></div>
+          <div class="hero-card-body">
+            <span class="article-cat badge" style="background:var(--ef-accent);">🏛 Nacional</span>
+            <h2>Gobierno presenta ambicioso plan de infraestructura digital para regiones del sur</h2>
+            <p class="hero-text">El Ministerio de Ciencia y Tecnología anunció una inversión de 320 mil millones de pesos para desplegar fibra óptica y conectividad 5G en La Araucanía, Los Ríos y Los Lagos, beneficiando a más de 800 mil habitantes.</p>
+            <div class="d-flex align-items-center justify-content-between">
+              <span class="hero-date"><i class="bi bi-calendar3 me-1"></i>24 Mar 2026</span>
+              <a href="#" class="btn btn-sm" style="background:var(--ef-accent);color:#fff;border:none;text-decoration:none;">Leer más <i class="bi bi-arrow-right"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- RF-04 Artículos secundarios pequeños al costado del hero -->
+      <div class="col-lg-4 d-flex flex-column gap-3" id="sidebar-inicio">
+        <!-- se renderizan dinámicamente -->
+      </div>
+    </div>
+
+    <!-- RF-07 Formulario de publicar artículo (Bootstrap Collapse) -->
+    <div class="add-article-panel" id="form-inicio">
+      <div class="aap-header">
+        <span><i class="bi bi-pencil-fill me-2"></i>Publicar nuevo artículo</span>
+        <button class="btn btn-sm" style="background:var(--ef-accent);color:#fff;border:none;"
+                data-bs-toggle="collapse" data-bs-target="#body-inicio"
+                id="toggle-inicio" onclick="syncToggleLabel('toggle-inicio')">
+          <i class="bi bi-plus-lg"></i> Agregar
+        </button>
+      </div>
+      <div class="collapse" id="body-inicio">
+        <div class="aap-body">
+          <div class="row g-3">
+            <div class="col-md-4">
+              <label class="form-label fw-semibold" style="font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;">Categoría</label>
+              <input type="text" class="form-control form-control-sm" id="cat-inicio" placeholder="Ej: Nacional, Tecnología...">
+            </div>
+            <div class="col-md-8">
+              <label class="form-label fw-semibold" style="font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;">Título <span style="color:var(--ef-accent)">*</span></label>
+              <input type="text" class="form-control form-control-sm" id="titulo-inicio" placeholder="Título del artículo..." required>
+            </div>
+            <div class="col-12">
+              <label class="form-label fw-semibold" style="font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;">Descripción <span style="color:var(--ef-accent)">*</span></label>
+              <textarea class="form-control form-control-sm" id="texto-inicio" rows="2" placeholder="Texto del artículo..." required></textarea>
+            </div>
+            <div class="col-12">
+              <button class="btn btn-sm aap-submit-btn text-white"
+                      onclick="addArticle('grid-inicio','sidebar-inicio','cat-inicio','titulo-inicio','texto-inicio','count-inicio','cat-general')">
+                <i class="bi bi-send-fill me-1"></i>Publicar artículo
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RF-04 Grilla de artículos secundarios (Bootstrap Row + Cards) -->
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" id="grid-inicio" aria-label="Noticias generales"></div>
+
+    <!-- Multimedia -->
+    <div class="row g-4 mt-2">
+      <div class="col-md-6">
+        <div class="card border-0 shadow-sm h-100">
+          <div class="media-card-header">
+            <div class="media-icon-circle"><i class="bi bi-play-fill"></i></div>
+            <span>Video — Reportaje</span>
+          </div>
+          <div class="card-body">
+            <h5 style="font-family:var(--ff-head);font-size:1rem;margin-bottom:8px;">Inauguración Corredor Verde Bío Bío</h5>
+            <p class="text-muted" style="font-size:.85rem;margin-bottom:10px;">Nuestro equipo recorrió el nuevo corredor verde de Concepción el día de su inauguración.</p>
+            <video controls preload="metadata"
+              poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 360'%3E%3Crect width='640' height='360' fill='%231a1008'/%3E%3Ccircle cx='320' cy='180' r='42' fill='%23b8320a' opacity='.85'/%3E%3Cpolygon points='310,160 310,200 345,180' fill='white'/%3E%3Ctext x='320' y='270' text-anchor='middle' fill='%23c8b89a' font-family='serif' font-size='14'%3ECorredor Verde Bio Bio%3C/text%3E%3C/svg%3E"
+              aria-label="Video Corredor Verde">
+              <source src="https://woolyss.com/f/vp9-vorbis-spring.webm" type="video/webm">
+            </video>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card border-0 shadow-sm h-100">
+          <div class="media-card-header" style="background:var(--ef-blue);">
+            <div class="media-icon-circle" style="background:var(--ef-blue);border:1px solid rgba(255,255,255,.3)"><i class="bi bi-music-note-beamed"></i></div>
+            <span>Audio — Entrevista</span>
+          </div>
+          <div class="card-body">
+            <h5 style="font-family:var(--ff-head);font-size:1rem;margin-bottom:8px;">Dra. Valentina Rojas sobre la vacuna nasal chilena</h5>
+            <p class="text-muted" style="font-size:.85rem;margin-bottom:10px;">La investigadora habla sobre los plazos para la fase III y la comercialización.</p>
+            <audio controls preload="metadata" style="margin-top:4px;">
+              <source src="https://woolyss.com/f/audio-sample.mp3" type="audio/mpeg">
+            </audio>
+            <div class="quote-box">"Lo que logramos demuestra que Chile puede hacer ciencia de frontera con impacto global." — Dra. Valentina Rojas</div>
+          </div>
+        </div>
+      </div>
+    </div><!-- /multimedia -->
+
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════
+     SECCIÓN DEPORTE
+════════════════════════════════════════════════════ -->
+<section id="deporte" class="ef-section">
+  <div class="container">
+
+    <p class="section-eyebrow">Sección deportiva</p>
+    <h2 class="section-heading mb-2">Deporte</h2>
+    <div class="article-counter mb-4" aria-live="polite">
+      <span class="ac-num" id="count-deporte">3</span>
+      <span class="ac-lbl">artículos deportivos</span>
+    </div>
+
+    <!-- Hero deporte -->
+    <div class="row g-4 mb-4">
+      <div class="col-lg-8">
+        <div class="hero-card" style="background:var(--ef-green);">
+          <div style="position:absolute;inset:0;background:linear-gradient(135deg,#0d3520,#1b6b3a);opacity:.8;"></div>
+          <div class="hero-card-body">
+            <span class="article-cat badge" style="background:var(--ef-green);">⚽ Fútbol</span>
+            <h2>Colo-Colo golea 3-0 a River Plate y sella su pase a semifinales de la Libertadores</h2>
+            <p class="hero-text">Con dos goles de Marcos Bolados y uno de Emiliano Amor, el Cacique aplastó a la banda cruzada ante 47.000 hinchas en el Monumental. Dominaron el 68% del balón.</p>
+            <div class="d-flex align-items-center justify-content-between">
+              <span class="hero-date"><i class="bi bi-calendar3 me-1"></i>23 Mar 2026</span>
+              <a href="#" class="btn btn-sm" style="background:var(--ef-green);color:#fff;border:1px solid rgba(255,255,255,.3);text-decoration:none;">Leer más <i class="bi bi-arrow-right"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 d-flex flex-column gap-3" id="sidebar-deporte"></div>
+    </div>
+
+    <!-- Formulario deporte -->
+    <div class="add-article-panel" id="form-deporte">
+      <div class="aap-header">
+        <span><i class="bi bi-trophy-fill me-2" style="color:var(--ef-green)"></i>Publicar noticia deportiva</span>
+        <button class="btn btn-sm text-white" style="background:var(--ef-green);border:none;"
+                data-bs-toggle="collapse" data-bs-target="#body-deporte"
+                id="toggle-deporte" onclick="syncToggleLabel('toggle-deporte')">
+          <i class="bi bi-plus-lg"></i> Agregar
+        </button>
+      </div>
+      <div class="collapse" id="body-deporte">
+        <div class="aap-body">
+          <div class="row g-3">
+            <div class="col-md-4">
+              <label class="form-label fw-semibold" style="font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;">Categoría</label>
+              <input type="text" class="form-control form-control-sm" id="cat-deporte" placeholder="Ej: Fútbol, Tenis...">
+            </div>
+            <div class="col-md-8">
+              <label class="form-label fw-semibold" style="font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;">Título <span style="color:var(--ef-green)">*</span></label>
+              <input type="text" class="form-control form-control-sm" id="titulo-deporte" placeholder="Título de la noticia..." required>
+            </div>
+            <div class="col-12">
+              <label class="form-label fw-semibold" style="font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;">Descripción <span style="color:var(--ef-green)">*</span></label>
+              <textarea class="form-control form-control-sm" id="texto-deporte" rows="2" placeholder="Texto de la noticia..." required></textarea>
+            </div>
+            <div class="col-12">
+              <button class="btn btn-sm text-white aap-submit-btn"
+                      onclick="addArticle('grid-deporte','sidebar-deporte','cat-deporte','titulo-deporte','texto-deporte','count-deporte','cat-deporte')">
+                <i class="bi bi-send-fill me-1"></i>Publicar noticia
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Grilla deporte -->
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-4" id="grid-deporte"></div>
+
+    <!-- Tabla posiciones -->
+    <div class="card border-0 shadow-sm mt-2">
+      <div class="card-body">
+        <h5 class="standings-title mb-3">⚽ Tabla Campeonato Nacional — Jornada 8</h5>
+        <div class="table-responsive">
+          <table class="table table-sm table-striped table-hover mb-0" style="font-size:.88rem;">
+            <thead class="table-dark">
+              <tr><th>Pos</th><th>Club</th><th class="text-center">PJ</th><th class="text-center">G</th><th class="text-center">E</th><th class="text-center">P</th><th class="text-center">Pts</th></tr>
+            </thead>
+            <tbody>
+              <tr class="fw-bold"><td>1</td><td>Colo-Colo</td><td class="text-center">8</td><td class="text-center">6</td><td class="text-center">1</td><td class="text-center">1</td><td class="text-center pts-highlight">19</td></tr>
+              <tr><td>2</td><td>U. de Chile</td><td class="text-center">8</td><td class="text-center">5</td><td class="text-center">2</td><td class="text-center">1</td><td class="text-center pts-highlight">17</td></tr>
+              <tr><td>3</td><td>U. Española</td><td class="text-center">8</td><td class="text-center">4</td><td class="text-center">3</td><td class="text-center">1</td><td class="text-center pts-highlight">15</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════
+     SECCIÓN NEGOCIOS
+════════════════════════════════════════════════════ -->
+<section id="negocios" class="ef-section">
+  <div class="container">
+
+    <p class="section-eyebrow">Economía y emprendimiento</p>
+    <h2 class="section-heading mb-2">Negocios</h2>
+    <div class="article-counter mb-4" aria-live="polite">
+      <span class="ac-num" id="count-negocios">3</span>
+      <span class="ac-lbl">artículos de negocios</span>
+    </div>
+
+    <!-- Hero negocios -->
+    <div class="row g-4 mb-4">
+      <div class="col-lg-8">
+        <div class="hero-card" style="background:#1a0f05;">
+          <div style="position:absolute;inset:0;background:linear-gradient(135deg,#1a0f05,#8a6020);opacity:.7;"></div>
+          <div class="hero-card-body">
+            <span class="article-cat badge" style="background:var(--ef-gold);color:var(--ef-ink);">📊 Startups</span>
+            <h2>Greenbite recauda US$12M para escalar su plataforma de alimentación sostenible</h2>
+            <p class="hero-text">La startup chilena de foodtech cerró una ronda Serie A liderada por Kaszek Ventures. Conecta agricultores con restaurantes reduciendo el desperdicio en un 40%.</p>
+            <div class="d-flex align-items-center justify-content-between">
+              <span class="hero-date"><i class="bi bi-calendar3 me-1"></i>24 Mar 2026</span>
+              <a href="#" class="btn btn-sm" style="background:var(--ef-gold);color:var(--ef-ink);border:none;text-decoration:none;">Leer más <i class="bi bi-arrow-right"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 d-flex flex-column gap-3" id="sidebar-negocios"></div>
+    </div>
+
+    <!-- Formulario negocios -->
+    <div class="add-article-panel" id="form-negocios">
+      <div class="aap-header">
+        <span><i class="bi bi-graph-up-arrow me-2" style="color:var(--ef-gold)"></i>Publicar noticia de negocios</span>
+        <button class="btn btn-sm text-white" style="background:#8a6020;border:none;"
+                data-bs-toggle="collapse" data-bs-target="#body-negocios"
+                id="toggle-negocios" onclick="syncToggleLabel('toggle-negocios')">
+          <i class="bi bi-plus-lg"></i> Agregar
+        </button>
+      </div>
+      <div class="collapse" id="body-negocios">
+        <div class="aap-body">
+          <div class="row g-3">
+            <div class="col-md-4">
+              <label class="form-label fw-semibold" style="font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;">Categoría</label>
+              <input type="text" class="form-control form-control-sm" id="cat-negocios" placeholder="Ej: Startups, Energía...">
+            </div>
+            <div class="col-md-8">
+              <label class="form-label fw-semibold" style="font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;">Título <span style="color:var(--ef-gold)">*</span></label>
+              <input type="text" class="form-control form-control-sm" id="titulo-negocios" placeholder="Título del artículo..." required>
+            </div>
+            <div class="col-12">
+              <label class="form-label fw-semibold" style="font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;">Descripción <span style="color:var(--ef-gold)">*</span></label>
+              <textarea class="form-control form-control-sm" id="texto-negocios" rows="2" placeholder="Texto del artículo..." required></textarea>
+            </div>
+            <div class="col-12">
+              <button class="btn btn-sm text-white aap-submit-btn"
+                      onclick="addArticle('grid-negocios','sidebar-negocios','cat-negocios','titulo-negocios','texto-negocios','count-negocios','cat-negocios')">
+                <i class="bi bi-send-fill me-1"></i>Publicar artículo
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Grilla negocios -->
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" id="grid-negocios"></div>
+
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════
+     SECCIÓN CONTACTO
+════════════════════════════════════════════════════ -->
+<section id="contacto" class="ef-section">
+  <div class="container">
+
+    <p class="section-eyebrow">Escríbenos</p>
+    <h2 class="section-heading mb-4">Contacto</h2>
+
+    <div class="row g-5 align-items-start">
+
+      <!-- Formulario de contacto (Bootstrap Form + validación) -->
+      <div class="col-lg-7">
+        <div class="card border-0 shadow-sm overflow-hidden">
+          <div class="card-header py-3" style="background:var(--ef-blue);">
+            <h5 class="mb-0 text-white" style="font-family:var(--ff-head);font-weight:600;">
+              <i class="bi bi-envelope-fill me-2"></i>Envíanos tu mensaje
+            </h5>
+          </div>
+          <div class="card-body p-4">
+            <form id="contact-form" class="needs-validation" novalidate onsubmit="submitContact(event)">
+              <div class="mb-3">
+                <label for="contact-name" class="form-label fw-semibold" style="font-size:.82rem;text-transform:uppercase;letter-spacing:.08em;">Nombre completo *</label>
+                <input type="text" class="form-control" id="contact-name"
+                       placeholder="Escribe tu nombre..." required>
+                <div class="invalid-feedback">Por favor ingresa tu nombre.</div>
+              </div>
+              <div class="mb-3">
+                <label for="contact-email" class="form-label fw-semibold" style="font-size:.82rem;text-transform:uppercase;letter-spacing:.08em;">Correo electrónico</label>
+                <input type="email" class="form-control" id="contact-email" placeholder="tu@correo.cl">
+              </div>
+              <div class="mb-3">
+                <label for="contact-msg" class="form-label fw-semibold" style="font-size:.82rem;text-transform:uppercase;letter-spacing:.08em;">Mensaje *</label>
+                <textarea class="form-control" id="contact-msg" rows="5"
+                          placeholder="Escribe tu mensaje, consulta o sugerencia..." required></textarea>
+                <div class="invalid-feedback">Por favor escribe un mensaje.</div>
+              </div>
+              <button type="submit" class="btn w-100 text-white fw-bold py-2"
+                      style="background:var(--ef-blue);border-color:var(--ef-blue);">
+                <i class="bi bi-send-fill me-2"></i>Enviar mensaje
+              </button>
+              <!-- Confirmación Bootstrap Alert -->
+              <div class="alert alert-success mt-3 d-none" id="contact-success" role="alert">
+                <i class="bi bi-check-circle-fill me-2"></i>
+                <strong>¡Mensaje enviado!</strong> Te responderemos a la brevedad.
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel de información de contacto -->
+      <div class="col-lg-5">
+        <div class="rounded-3 p-4 h-100" style="background:var(--ef-ink);color:#c8b89a;">
+          <h3 style="font-family:var(--ff-head);color:#f8f3e8;font-size:1.4rem;margin-bottom:8px;">El Faro</h3>
+          <p style="font-size:.88rem;margin-bottom:20px;">Fundado en 1979. Comprometidos con la verdad, el rigor periodístico y el servicio a la comunidad.</p>
+          <div class="d-flex flex-column gap-3">
+            <div class="d-flex gap-3">
+              <i class="bi bi-geo-alt-fill mt-1" style="color:var(--ef-gold);font-size:1.1rem;flex-shrink:0;"></i>
+              <div>
+                <div style="font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ef-gold);margin-bottom:2px;">Dirección</div>
+                <div style="font-size:.88rem;">Av. Principal 1200, Of. 305<br>Santiago, Chile</div>
+              </div>
+            </div>
+            <div class="d-flex gap-3">
+              <i class="bi bi-envelope-fill mt-1" style="color:var(--ef-gold);font-size:1.1rem;flex-shrink:0;"></i>
+              <div>
+                <div style="font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ef-gold);margin-bottom:2px;">Correo</div>
+                <div style="font-size:.88rem;">contacto@elfaro.cl<br>redaccion@elfaro.cl</div>
+              </div>
+            </div>
+            <div class="d-flex gap-3">
+              <i class="bi bi-telephone-fill mt-1" style="color:var(--ef-gold);font-size:1.1rem;flex-shrink:0;"></i>
+              <div>
+                <div style="font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ef-gold);margin-bottom:2px;">Teléfono</div>
+                <div style="font-size:.88rem;">+56 2 2345 6789</div>
+              </div>
+            </div>
+            <div class="d-flex gap-3">
+              <i class="bi bi-clock-fill mt-1" style="color:var(--ef-gold);font-size:1.1rem;flex-shrink:0;"></i>
+              <div>
+                <div style="font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ef-gold);margin-bottom:2px;">Horario</div>
+                <div style="font-size:.88rem;">Lun – Vie: 9:00 – 18:00 hrs</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!--
+  ════════════════════════════════════════════════════════
+  RF-05 — FOOTER AMPLIADO (Bootstrap Grid multi-columna)
+  5 columnas: Marca · Secciones · Últimas noticias · Redes · Newsletter
+  ════════════════════════════════════════════════════════
+-->
+<footer id="mainFooter" role="contentinfo">
+  <div class="container">
+    <div class="row g-5">
+
+      <!-- Columna 1 — Marca -->
+      <div class="col-lg-3 col-md-6">
+        <div class="brand-name mb-2">El <span>Faro</span></div>
+        <p>Fundado en 1979, El Faro es el periódico digital independiente de referencia. Comprometidos con la verdad y el rigor periodístico.</p>
+        <p class="mt-3" style="font-size:.82rem;">
+          <i class="bi bi-geo-alt-fill me-1" style="color:var(--ef-gold)"></i>Av. Principal 1200, Of. 305<br>
+          <i class="bi bi-envelope-fill me-1 mt-1" style="color:var(--ef-gold)"></i>contacto@elfaro.cl<br>
+          <i class="bi bi-telephone-fill me-1 mt-1" style="color:var(--ef-gold)"></i>+56 2 2345 6789
+        </p>
+      </div>
+
+      <!-- Columna 2 — Secciones -->
+      <div class="col-lg-2 col-md-6">
+        <h5>Secciones</h5>
+        <ul>
+          <li><a href="#inicio"><i class="bi bi-chevron-right me-1" style="font-size:.7rem;"></i>Inicio</a></li>
+          <li><a href="#deporte"><i class="bi bi-chevron-right me-1" style="font-size:.7rem;"></i>Deporte</a></li>
+          <li><a href="#negocios"><i class="bi bi-chevron-right me-1" style="font-size:.7rem;"></i>Negocios</a></li>
+          <li><a href="#contacto"><i class="bi bi-chevron-right me-1" style="font-size:.7rem;"></i>Contacto</a></li>
+          <li><a href="#"><i class="bi bi-chevron-right me-1" style="font-size:.7rem;"></i>Opinión</a></li>
+          <li><a href="#"><i class="bi bi-chevron-right me-1" style="font-size:.7rem;"></i>Internacional</a></li>
+        </ul>
+      </div>
+
+      <!-- Columna 3 — Últimas noticias (lista dinámica) -->
+      <div class="col-lg-3 col-md-6">
+        <h5>Últimas noticias</h5>
+        <ul style="display:flex;flex-direction:column;gap:10px;">
+          <li style="border-bottom:1px solid rgba(49,35,30,.12);padding-bottom:8px;">
+            <a href="#" style="font-size:.85rem;display:block;margin-bottom:2px;">Colo-Colo sella pase a semis de la Libertadores</a>
+            <span style="font-size:.72rem;color:#7a6040;"><i class="bi bi-calendar3 me-1"></i>23 Mar 2026</span>
+          </li>
+          <li style="border-bottom:1px solid rgba(49,35,30,.12);padding-bottom:8px;">
+            <a href="#" style="font-size:.85rem;display:block;margin-bottom:2px;">Tabilo avanza a cuartos del Masters Miami</a>
+            <span style="font-size:.72rem;color:#7a6040;"><i class="bi bi-calendar3 me-1"></i>24 Mar 2026</span>
+          </li>
+          <li>
+            <a href="#" style="font-size:.85rem;display:block;margin-bottom:2px;">Greenbite recauda US$12M en ronda Serie A</a>
+            <span style="font-size:.72rem;color:#7a6040;"><i class="bi bi-calendar3 me-1"></i>24 Mar 2026</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Columna 4 — Redes sociales -->
+      <div class="col-lg-2 col-md-6">
+        <h5>Síguenos</h5>
+        <div class="d-flex flex-column gap-2">
+          <a href="#" class="footer-social-btn"><i class="bi bi-twitter-x me-2"></i>X / Twitter</a>
+          <a href="#" class="footer-social-btn"><i class="bi bi-instagram me-2"></i>Instagram</a>
+          <a href="#" class="footer-social-btn"><i class="bi bi-facebook me-2"></i>Facebook</a>
+          <a href="#" class="footer-social-btn"><i class="bi bi-youtube me-2"></i>YouTube</a>
+          <a href="#" class="footer-social-btn"><i class="bi bi-linkedin me-2"></i>LinkedIn</a>
+        </div>
+      </div>
+
+      <!-- Columna 5 — Newsletter -->
+      <div class="col-lg-2 col-md-6">
+        <h5>Newsletter</h5>
+        <p style="font-size:.85rem;margin-bottom:12px;">Recibe las noticias más importantes en tu correo cada día.</p>
+        <div class="d-flex flex-column gap-2">
+          <input type="email" class="newsletter-input" placeholder="tu@correo.cl">
+          <button class="newsletter-btn">
+            <i class="bi bi-send-fill me-1"></i>Suscribirse
+          </button>
+        </div>
+        <p style="font-size:.72rem;color:#7a6040;margin-top:8px;">Al suscribirte aceptas nuestra política de privacidad.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Barra inferior del footer -->
+  <div class="footer-bottom-bar">
+    <div class="container">
+      <span>© 2026 Diario El Faro · Todos los derechos reservados</span>
+      <span style="font-size:.75rem;color:#7a6040;">Desarrollado con Bootstrap 5.3 · HTML5 · JavaScript</span>
+    </div>
+  </div>
+</footer>
+
+
+<!-- Bootstrap 5 JS Bundle (incluye Popper para dropdowns) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+
+<script>
+/* ════════════════════════════════════════════════════════
+   JAVASCRIPT — Toda la lógica del sitio El Faro v6
+
+   1. updateClock()         — Reloj en vivo (setInterval)
+   2. renderArticles()      — Carga artículos desde arrays
+   3. addArticle()          — Publica nuevo artículo al DOM
+   4. syncToggleLabel()     — Cambia texto del botón Agregar/Cerrar
+   5. submitContact()       — Formulario de contacto
+   6. updateActiveLink()    — Menú activo según scroll
+════════════════════════════════════════════════════════ */
+
+/* ── 1. RELOJ EN VIVO ── */
+function pad(n) { return n < 10 ? '0' + n : String(n); }
+
+function updateClock() {
+  const now   = new Date();
+  const dias  = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
+  const meses = ['enero','febrero','marzo','abril','mayo','junio',
+                 'julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  const fecha = dias[now.getDay()].charAt(0).toUpperCase() + dias[now.getDay()].slice(1)
+              + ', ' + now.getDate() + ' de ' + meses[now.getMonth()]
+              + ' de ' + now.getFullYear();
+  const hora  = pad(now.getHours()) + ':' + pad(now.getMinutes()) + ':' + pad(now.getSeconds());
+  document.getElementById('live-date').textContent = fecha;
+  document.getElementById('live-time').textContent = hora;
+}
+updateClock();
+setInterval(updateClock, 1000);
+
+
+/* ── 2. DATOS INICIALES ── */
+const articulosInicio = [
+  { cat:'Nacional',            catClass:'cat-general', titulo:'Senado aprueba histórica reforma al sistema de agua potable rural',        texto:'La Cámara Alta ratificó por 35 votos la modificación que garantiza acceso universal en comunidades con menos de 3.000 habitantes.', fecha:'24 Mar 2026' },
+  { cat:'Ciencia y Tecnología',catClass:'cat-general', titulo:'Investigadores de la U. de Chile desarrollan vacuna nasal contra cepa gripal',texto:'Vacuna intranasal con eficacia del 91% frente a la cepa H5N2. Publicada en The Lancet Infectious Diseases.',                      fecha:'24 Mar 2026' },
+  { cat:'Regional',            catClass:'cat-general', titulo:'Concepción inaugura el primer corredor verde interurbano del país',         texto:'Ciclovía-parque de 18 km evaluada en $9.200 millones, con paneles solares e iluminación LED.',                                   fecha:'2 Mar 2026'  },
+];
+const articulosDeporte = [
+  { cat:'Tenis',     catClass:'cat-deporte', titulo:'Tabilo avanza a cuartos del Masters 1000 de Miami tras vencer al N°4 del mundo',titulo:'Tabilo avanza a cuartos tras vencer a Rublev (N°4 ATP) con 7-5 y 6-4',texto:'Saque dominante con 78% de efectividad. En cuartos se medirá ante Alcaraz.',fecha:'24 Mar 2026' },
+  { cat:'Selección', catClass:'cat-deporte', titulo:'La Roja Sub-20 clasifica al Mundial de Qatar 2027 con goleada sobre Ecuador',        texto:'Chile aseguró su boleto venciendo 3-0. Goles de Nicolás Pino y Darío Osorio Jr. Primer clasificado a dos cupos en 12 años.',    fecha:'22 Mar 2026' },
+  { cat:'Copa Liga', catClass:'cat-deporte', titulo:'Colo-Colo visita a Deportes Concepción en el Ester Roa por la Copa de la Liga',     texto:'Esta noche a las 20:30 hrs. en el Ester Roa. Colo-Colo busca liderar el Grupo A tras empate 1-1 en la primera fecha.',            fecha:'24 Mar 2026' },
+];
+const articulosNegocios = [
+  { cat:'Inmobiliario',catClass:'cat-negocios',titulo:'Precios de arriendo en Santiago caen 8% por primera vez en 5 años',texto:'Baja en Providencia, Las Condes y Santiago Centro. Nuevas unidades y tasas hipotecarias más competitivas.',fecha:'23 Mar 2026' },
+  { cat:'Energía',     catClass:'cat-negocios',titulo:'SolarAndes firma PPA para abastecer el 30% de energía del norte con solar',texto:'Contrato de 20 años con el Ministerio de Energía para 1.800 GWh anuales. Generará 2.400 empleos.',             fecha:'22 Mar 2026' },
+  { cat:'Economía',    catClass:'cat-negocios',titulo:'Banco Central mantiene tasa de interés en 4,5% en reunión de política monetaria', texto:'El Consejo decidió mantener la tasa de política monetaria tras analizar indicadores de inflación y crecimiento.',  fecha:'20 Mar 2026' },
+];
+
+
+/* ── 3. CREAR TARJETA HTML ── */
+/**
+ * createCard(art, idx, tipo)
+ * Genera el HTML de una news-card (col Bootstrap).
+ */
+function createCard(art, idx, tipo) {
+  const num   = String(idx).padStart(2,'0');
+  const fecha = art.fecha || new Date().toLocaleDateString('es-CL',{day:'numeric',month:'short',year:'numeric'});
+  const catBg = tipo === 'cat-deporte' ? 'var(--ef-green)'
+              : tipo === 'cat-negocios'? 'var(--ef-gold)'
+              : 'var(--ef-blue)';
+  const catColor = tipo === 'cat-negocios' ? 'var(--ef-ink)' : '#fff';
+  return `
+    <div class="col">
+      <div class="news-card card border-0">
+        <div class="card-num">${num}</div>
+        <div class="card-body">
+          <span class="badge rounded-pill mb-2" style="background:${catBg};color:${catColor};font-size:.7rem;letter-spacing:.1em;">${art.cat}</span>
+          <h6 class="card-title">${art.titulo}</h6>
+          <p class="card-text">${art.texto}</p>
+        </div>
+        <div class="card-footer-bar">
+          <span class="card-date"><i class="bi bi-calendar3 me-1"></i>${fecha}</span>
+          <span>→ Leer más</span>
+        </div>
+      </div>
+    </div>`;
+}
+
+/**
+ * createSidebarCard(art, tipo)
+ * Tarjeta compacta para el sidebar junto al hero.
+ */
+function createSidebarCard(art, tipo) {
+  const catBg = tipo === 'cat-deporte' ? 'var(--ef-green)'
+              : tipo === 'cat-negocios'? 'var(--ef-gold)'
+              : 'var(--ef-blue)';
+  const catColor = tipo === 'cat-negocios' ? 'var(--ef-ink)' : '#fff';
+  return `
+    <div class="card border-0 shadow-sm" style="border-radius:8px;overflow:hidden;">
+      <div class="card-body py-2 px-3">
+        <span class="badge rounded-pill mb-1" style="background:${catBg};color:${catColor};font-size:.65rem;">${art.cat}</span>
+        <h6 style="font-family:var(--ff-head);font-size:.88rem;line-height:1.3;margin-bottom:4px;">${art.titulo}</h6>
+        <span style="font-size:.72rem;color:#9a8060;"><i class="bi bi-calendar3 me-1"></i>${art.fecha}</span>
+      </div>
+    </div>`;
+}
+
+/** Render inicial de todas las secciones */
+function renderArticles(gridId, sidebarId, arr, tipo) {
+  const grid    = document.getElementById(gridId);
+  const sidebar = document.getElementById(sidebarId);
+  if (grid)    grid.innerHTML    = arr.map((a,i) => createCard(a, i+1, tipo)).join('');
+  if (sidebar) sidebar.innerHTML = arr.slice(0,2).map(a => createSidebarCard(a, tipo)).join('');
+}
+
+renderArticles('grid-inicio',   'sidebar-inicio',   articulosInicio,   'cat-general');
+renderArticles('grid-deporte',  'sidebar-deporte',  articulosDeporte,  'cat-deporte');
+renderArticles('grid-negocios', 'sidebar-negocios', articulosNegocios, 'cat-negocios');
+
+
+/* ── 4. AGREGAR ARTÍCULO ── */
+/**
+ * addArticle(...)
+ * Lee el formulario, crea la tarjeta y la inserta en el DOM.
+ * Actualiza el contador y el sidebar con Bootstrap animation.
+ */
+function addArticle(gridId, sidebarId, catId, tituloId, textoId, counterId, tipo) {
+  const catEl    = document.getElementById(catId);
+  const tituloEl = document.getElementById(tituloId);
+  const textoEl  = document.getElementById(textoId);
+
+  const cat    = catEl.value.trim()    || 'General';
+  const titulo = tituloEl.value.trim();
+  const texto  = textoEl.value.trim();
+
+  if (!titulo || !texto) {
+    /* Bootstrap toast-style alert */
+    const alertHtml = `<div class="alert alert-danger alert-dismissible fade show py-2 mt-2" role="alert">
+      <i class="bi bi-exclamation-triangle-fill me-2"></i>Complete el título y la descripción.
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>`;
+    const grid = document.getElementById(gridId);
+    grid.insertAdjacentHTML('beforebegin', alertHtml);
+    return;
+  }
+
+  const fecha = new Date().toLocaleDateString('es-CL',{day:'numeric',month:'short',year:'numeric'});
+  const art   = { cat, catClass: tipo, titulo, texto, fecha };
+  const grid  = document.getElementById(gridId);
+  const newIndex = grid.children.length + 1;
+
+  /* Crear tarjeta e insertar al inicio */
+  const tempDiv = document.createElement('div');
+  tempDiv.innerHTML = createCard(art, newIndex, tipo);
+  const newCol = tempDiv.firstElementChild;
+  newCol.style.opacity   = '0';
+  newCol.style.transform = 'translateY(-10px)';
+  newCol.style.transition = 'opacity .35s, transform .35s';
+  grid.insertBefore(newCol, grid.firstChild);
+  newCol.getBoundingClientRect();
+  newCol.style.opacity   = '1';
+  newCol.style.transform = 'translateY(0)';
+
+  /* Actualizar sidebar */
+  const sidebar = document.getElementById(sidebarId);
+  if (sidebar) {
+    const sc = document.createElement('div');
+    sc.innerHTML = createSidebarCard(art, tipo);
+    sidebar.insertBefore(sc.firstElementChild, sidebar.firstChild);
+    if (sidebar.children.length > 2) sidebar.removeChild(sidebar.lastChild);
+  }
+
+  /* Actualizar contador */
+  const counter = document.getElementById(counterId);
+  if (counter) counter.textContent = parseInt(counter.textContent) + 1;
+
+  /* Limpiar campos */
+  catEl.value = ''; tituloEl.value = ''; textoEl.value = '';
+  tituloEl.focus();
+  newCol.scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+
+/* ── 4b. SYNC TOGGLE LABEL ── */
+function syncToggleLabel(btnId) {
+  const btn  = document.getElementById(btnId);
+  const tgt  = btn.getAttribute('data-bs-target');
+  const col  = document.querySelector(tgt);
+  if (!col) return;
+  col.addEventListener('shown.bs.collapse', () => {
+    btn.innerHTML = '<i class="bi bi-dash-lg"></i> Cerrar';
+  }, {once:true});
+  col.addEventListener('hidden.bs.collapse', () => {
+    btn.innerHTML = '<i class="bi bi-plus-lg"></i> Agregar';
+  }, {once:true});
+}
+
+
+/* ── 5. FORMULARIO DE CONTACTO ── */
+function submitContact(e) {
+  e.preventDefault();
+  const form   = document.getElementById('contact-form');
+  const nombre = document.getElementById('contact-name').value.trim();
+  const msg    = document.getElementById('contact-msg').value.trim();
+
+  /* Validación Bootstrap (was-validated) */
+  form.classList.add('was-validated');
+  if (!nombre || !msg) return;
+
+  /* Simular envío */
+  form.style.opacity       = '.5';
+  form.style.pointerEvents = 'none';
+  const success = document.getElementById('contact-success');
+  success.classList.remove('d-none');
+
+  setTimeout(() => {
+    form.reset();
+    form.classList.remove('was-validated');
+    form.style.opacity       = '1';
+    form.style.pointerEvents = 'auto';
+    success.classList.add('d-none');
+  }, 5000);
+}
+
+
+/* ── 6. NAVEGACIÓN ACTIVA ── */
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('#mainNav .nav-link:not(.dropdown-toggle)');
+
+function updateActiveLink() {
+  let current = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 90) current = s.id;
+  });
+  navLinks.forEach(a => {
+    a.classList.remove('active');
+    if (a.getAttribute('href') === '#' + current) a.classList.add('active');
+  });
+}
+window.addEventListener('scroll', updateActiveLink);
+updateActiveLink();
+
+/* Smooth scroll en links del nav */
+document.querySelectorAll('#mainNav a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const tgt = document.querySelector(a.getAttribute('href'));
+    if (!tgt) return;
+    e.preventDefault();
+    tgt.scrollIntoView({behavior:'smooth', block:'start'});
+    /* Cerrar menú móvil si está abierto */
+    const nav = document.getElementById('navContent');
+    if (nav.classList.contains('show')) {
+      bootstrap.Collapse.getInstance(nav)?.hide();
+    }
+  });
+});
+</script>
+
+</body>
+</html>
