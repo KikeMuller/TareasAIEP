@@ -1,4 +1,4 @@
-# El Faro v6 — PHP MVC
+# SEMANA 06 / El Faro v6 — PHP MVC
 
 Periódico digital desarrollado con PHP 8, Bootstrap 5.3 y arquitectura MVC.
 
