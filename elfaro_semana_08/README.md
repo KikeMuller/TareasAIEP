@@ -207,35 +207,6 @@ stored procedures no han sido ejecutados aún.
 
 ---
 
-## Diagrama de arquitectura
-
-```mermaid
-flowchart TD
-    CFG["⚙️ config.php
-    DB_HOST · DB_NAME · DB_USER · DB_PASS"]
-    DB["🔌 Database.php — Singleton
-    getInstance() · getConnection() → PDO"]
-    MODEL["📦 Model.php «abstract»
-    all() · find() · create() · sanitize()"]
-    U["👤 Usuario"] AR["📰 Articulo"] SU["⭐ Suscripcion"]
-    CO["✉️ Contacto"] CMC["🎭 Comic"]
-    SP1["🗄️ sp_insertar_contacto"]
-    SP2["🗄️ sp_articulos_por_seccion"]
-    CTRL["🎮 Controladores PHP"]
-    VIEW["🖼️ Vistas PHP + Bootstrap 5.3"]
-    MYSQL[("🗃️ MySQL 8 — elfaro_db")]
-
-    CFG -->|"constantes DB_*"| DB
-    DB  -->|"PDO compartido"| MODEL
-    MODEL -->|extends| U & AR & SU & CO & CMC
-    U & AR & SU & CO & CMC -->|instanciado por| CTRL
-    CO  -->|"CALL SP"| SP1 --> MYSQL
-    AR  -->|"CALL SP"| SP2 --> MYSQL
-    U & SU & CMC -->|"PDO queries"| MYSQL
-    CTRL -->|"render()"| VIEW
-```
-
----
 
 ## Sección Comics
 
